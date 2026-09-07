@@ -59,7 +59,8 @@ button {
 }
 
 a:focus-visible,
-button:focus-visible {
+button:focus-visible,
+summary:focus-visible {
     outline: 2px solid var(--accent);
     outline-offset: 4px;
 }
@@ -323,6 +324,91 @@ p {
     letter-spacing: 0.02em;
 }
 
+.work-visual {
+    margin: 0 0 20px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: #101213;
+}
+
+.work-visual img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.work-visual--touchbar {
+    margin-top: 22px;
+    padding: 14px;
+    background: #050505;
+}
+
+.work-visual figcaption {
+    margin-top: 10px;
+    color: #aaa;
+    font-size: 10.5px;
+    letter-spacing: 0.04em;
+}
+
+.work-details {
+    margin-top: 22px;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+}
+
+.work-details summary {
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    color: var(--text);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    list-style: none;
+    cursor: pointer;
+}
+
+.work-details summary::-webkit-details-marker {
+    display: none;
+}
+
+.work-details summary:hover {
+    color: var(--accent);
+}
+
+.details-label--open {
+    display: none;
+}
+
+.details-icon {
+    color: var(--quiet);
+    font-size: 10px;
+    transition: transform 250ms ease;
+}
+
+.work-details[open] .details-label--closed {
+    display: none;
+}
+
+.work-details[open] .details-label--open {
+    display: inline;
+}
+
+.work-details[open] .details-icon {
+    transform: rotate(180deg);
+}
+
+.work-details__content {
+    padding: 4px 0 22px;
+}
+
+.work-details__content .feature-list {
+    margin-bottom: 0;
+}
+
 .feature-list {
     margin: 20px 0;
     padding-left: 20px;
@@ -426,6 +512,10 @@ footer {
 
     .work-card {
         padding: 20px;
+    }
+
+    .work-visual--touchbar {
+        padding: 10px;
     }
 
     .work-actions {

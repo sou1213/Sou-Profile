@@ -3,20 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="高橋壮介が制作するTaskManagerなどのiOSアプリとWebアプリを、目的・対象ユーザー・機能・使用技術とともに紹介します。">
+    <meta name="description" content="高橋壮介がOSSとして公開するChatGPT Touch Barをはじめ、制作中のiOSアプリとWebアプリを紹介します。">
     <meta name="author" content="高橋 壮介">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://sou-profile.pages.dev/work">
     <meta property="og:type" content="website">
     <meta property="og:locale" content="ja_JP">
     <meta property="og:site_name" content="SOU / LOG">
-    <meta property="og:title" content="制作実績 | TaskManager・iOS/Webアプリ | 高橋壮介">
-    <meta property="og:description" content="Apple Pencilを使うTaskManagerをはじめ、高橋壮介が開発中のiOSアプリとWebアプリを紹介します。">
+    <meta property="og:title" content="制作実績 | ChatGPT Touch Bar・iOS/Webアプリ | 高橋壮介">
+    <meta property="og:description" content="OSSのChatGPT Touch Barをはじめ、高橋壮介が制作するmacOS・iOS・Webアプリを紹介します。">
     <meta property="og:url" content="https://sou-profile.pages.dev/work">
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="制作実績 | TaskManager・iOS/Webアプリ | 高橋壮介">
-    <meta name="twitter:description" content="Apple Pencilを使うTaskManagerをはじめ、高橋壮介が開発中のiOSアプリとWebアプリを紹介します。">
-    <title>制作実績 | TaskManager・iOS/Webアプリ | 高橋壮介</title>
+    <meta name="twitter:title" content="制作実績 | ChatGPT Touch Bar・iOS/Webアプリ | 高橋壮介">
+    <meta name="twitter:description" content="OSSのChatGPT Touch Barをはじめ、高橋壮介が制作するmacOS・iOS・Webアプリを紹介します。">
+    <title>制作実績 | ChatGPT Touch Bar・iOS/Webアプリ | 高橋壮介</title>
     <link rel="stylesheet" href="./styles.css">
     <script src="./theme.js" defer></script>
     <script type="application/ld+json">
@@ -24,12 +24,20 @@
         "@context": "https://schema.org",
         "@type": "CollectionPage",
         "url": "https://sou-profile.pages.dev/work",
-        "name": "制作実績 | TaskManager・iOS/Webアプリ | 高橋壮介",
-        "description": "高橋壮介が制作するiOSアプリとWebアプリの目的、機能、使用技術を紹介します。",
+        "name": "制作実績 | ChatGPT Touch Bar・iOS/Webアプリ | 高橋壮介",
+        "description": "高橋壮介が制作するOSS、macOSアプリ、iOSアプリ、Webアプリの目的、機能、使用技術を紹介します。",
         "author": {
             "@id": "https://sou-profile.pages.dev/#person"
         },
         "hasPart": [
+            {
+                "@type": "SoftwareApplication",
+                "name": "ChatGPT Touch Bar",
+                "url": "https://github.com/sou1213/chatgpt-touchbar",
+                "applicationCategory": "UtilitiesApplication",
+                "operatingSystem": "macOS 12 or later",
+                "description": "ChatGPTやCodexの利用枠をMacBook ProのTouch Barに表示する、MITライセンスのmacOS向けオープンソースヘルパーです。"
+            },
             {
                 "@type": "SoftwareApplication",
                 "name": "TaskManager",
@@ -66,6 +74,63 @@
             <h1>WORK</h1>
             <p class="page-lead">完成品だけでなく、考えながら形にしている途中のプロジェクトも制作記録として掲載しています。</p>
         </header>
+
+        <section aria-labelledby="macos-apps-title">
+            <h2 id="macos-apps-title">macOS Application / Open Source</h2>
+            <article class="work-card">
+                <div class="work-card__meta">
+                    <span class="status-badge">Open Source</span>
+                    <span>2026</span>
+                </div>
+                <h3>ChatGPT Touch Bar</h3>
+                <figure class="work-visual">
+                    <img src="./assets/chatgpt-touchbar/figma-readme-hero.png" alt="ChatGPT Touch Barの概要と利用枠メーターを示す画像" width="1440" height="760" loading="lazy" decoding="async">
+                </figure>
+                <p>ChatGPT/Codexアプリ、またはSafariのChatGPTタブを使用している間、Codexの利用状況をMacBook ProのTouch Barに表示するmacOS常駐ヘルパーです。</p>
+
+                <details class="work-details">
+                    <summary>
+                        <span class="details-label details-label--closed">続きを見る</span>
+                        <span class="details-label details-label--open">詳細を閉じる</span>
+                        <span class="details-icon" aria-hidden="true">▼</span>
+                    </summary>
+                    <div class="work-details__content">
+                        <p>5時間枠と週次枠の残り容量、次のリセット時刻を手元で確認できます。対象外のアプリやWebサイトへ切り替えると、Touch Barは自動的に通常の表示へ戻ります。</p>
+                        <p>既存のCodex認証を利用してローカルで動作し、APIキーや有料の開発者APIは必要ありません。アクセス解析、テレメトリ、外部データベースを使用せず、Safari連携では現在のタブURLだけを確認します。</p>
+
+                        <figure class="work-visual work-visual--touchbar">
+                            <img src="./assets/chatgpt-touchbar/safari-touch-bar.png" alt="SafariでChatGPTを使用しているときのTouch Bar表示" width="2008" height="60" loading="lazy" decoding="async">
+                            <figcaption>SafariでChatGPTを使用中のTouch Bar表示</figcaption>
+                        </figure>
+
+                        <ul class="feature-list">
+                            <li>Codexの5時間枠・週次枠の残り容量を表示</li>
+                            <li>次回リセット時刻と30秒ごとの自動更新</li>
+                            <li>ChatGPT/CodexデスクトップアプリとSafariに対応</li>
+                            <li>利用状況に応じたTouch Barの表示・復元</li>
+                        </ul>
+
+                        <div class="notice-box">
+                            Touch Bar搭載MacBook ProとmacOS 12以降が必要です。署名済みバイナリはまだ公開していないため、現在はソースコードからビルドして利用します。
+                        </div>
+
+                        <div class="tech-list" aria-label="使用技術">
+                            <span>Swift</span>
+                            <span>AppKit</span>
+                            <span>NSTouchBar</span>
+                            <span>NSWorkspace</span>
+                            <span>AppleScript</span>
+                            <span>Codex App Server</span>
+                        </div>
+                    </div>
+                </details>
+
+                <div class="work-actions">
+                    <a class="primary-link" href="https://github.com/sou1213/chatgpt-touchbar" target="_blank" rel="noopener noreferrer">View on GitHub <span aria-hidden="true">↗</span></a>
+                    <span class="private-note">MIT License</span>
+                </div>
+            </article>
+        </section>
 
         <section aria-labelledby="ios-apps-title">
             <h2 id="ios-apps-title">iOS Application</h2>

@@ -14,6 +14,7 @@ await rm(outputRoot, { recursive: true, force: true });
 await mkdir(outputRoot, { recursive: true });
 
 const publicFiles = [
+    "assets",
     "index.html",
     "work.html",
     "styles.css",
@@ -24,7 +25,7 @@ const publicFiles = [
 ];
 
 for (const file of publicFiles) {
-    await cp(join(projectRoot, file), join(outputRoot, file));
+    await cp(join(projectRoot, file), join(outputRoot, file), { recursive: true });
 }
 
 console.log(`Cloudflare Pages output: ${outputRoot}`);

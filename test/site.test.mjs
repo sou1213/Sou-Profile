@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
+import { readFile, stat } from "node:fs/promises";
 import test from "node:test";
 
 const read = (path) => readFile(new URL(`../${path}`, import.meta.url), "utf8");
@@ -28,6 +28,16 @@ test("HomeとWorkで共通ナビゲーションを提供する", async () => {
 test("Workページは制作物と未完成の範囲を明記する", async () => {
     const work = await read("work.html");
 
+    assert.match(work, /ChatGPT Touch Bar/);
+    assert.match(work, /Open Source/);
+    assert.match(work, /https:\/\/github\.com\/sou1213\/chatgpt-touchbar/);
+    assert.match(work, /MIT License/);
+    assert.match(work, /<details class="work-details">/);
+    assert.match(work, /続きを見る/);
+    assert.match(work, /\.\/assets\/chatgpt-touchbar\/figma-readme-hero\.png/);
+    assert.match(work, /\.\/assets\/chatgpt-touchbar\/safari-touch-bar\.png/);
+    assert.match(work, /APIキーや有料の開発者APIは必要ありません/);
+    assert.match(work, /Touch Bar搭載MacBook ProとmacOS 12以降/);
     assert.match(work, /TaskManager/);
     assert.match(work, /Apple Pencil/);
     assert.match(work, /Goodnotes/);
@@ -41,6 +51,19 @@ test("Workページは制作物と未完成の範囲を明記する", async () =
     assert.match(work, /Source code: Private/);
 });
 
+test("ChatGPT Touch Barの画像を公開物へ含める", async () => {
+    const [hero, screenshot, buildScript] = await Promise.all([
+        stat(new URL("../assets/chatgpt-touchbar/figma-readme-hero.png", import.meta.url)),
+        stat(new URL("../assets/chatgpt-touchbar/safari-touch-bar.png", import.meta.url)),
+        read("scripts/build-cloudflare-pages.mjs")
+    ]);
+
+    assert.ok(hero.size > 0);
+    assert.ok(screenshot.size > 0);
+    assert.match(buildScript, /"assets"/);
+    assert.match(buildScript, /\{ recursive: true \}/);
+});
+
 test("各ページは検索とSNS共有向けの固有メタデータを持つ", async () => {
     const [home, work] = await Promise.all([read("index.html"), read("work.html")]);
 
@@ -49,9 +72,9 @@ test("各ページは検索とSNS共有向けの固有メタデータを持つ",
     assert.match(home, /<meta property="og:title" content="高橋壮介 \| Swift・iOSアプリ開発ポートフォリオ">/);
     assert.match(home, /<meta name="twitter:card" content="summary">/);
 
-    assert.match(work, /<title>制作実績 \| TaskManager・iOS\/Webアプリ \| 高橋壮介<\/title>/);
+    assert.match(work, /<title>制作実績 \| ChatGPT Touch Bar・iOS\/Webアプリ \| 高橋壮介<\/title>/);
     assert.match(work, /<link rel="canonical" href="https:\/\/sou-profile\.pages\.dev\/work">/);
-    assert.match(work, /<meta property="og:title" content="制作実績 \| TaskManager・iOS\/Webアプリ \| 高橋壮介">/);
+    assert.match(work, /<meta property="og:title" content="制作実績 \| ChatGPT Touch Bar・iOS\/Webアプリ \| 高橋壮介">/);
     assert.match(work, /<meta name="twitter:card" content="summary">/);
 
     assert.notEqual(
@@ -75,9 +98,14 @@ test("構造化データはプロフィールと制作物を正しく表す", as
 
     assert.equal(workData["@type"], "CollectionPage");
     assert.deepEqual(workData.hasPart.map((item) => item.name), [
+        "ChatGPT Touch Bar",
         "TaskManager",
         "Your Feel Of Wallpaper"
     ]);
+
+    const touchBar = workData.hasPart[0];
+    assert.equal(touchBar.url, "https://github.com/sou1213/chatgpt-touchbar");
+    assert.equal(touchBar.applicationCategory, "UtilitiesApplication");
 });
 
 test("robots.txtとサイトマップはCloudflareの正式URLを案内する", async () => {
