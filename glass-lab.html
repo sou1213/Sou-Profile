@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SOU / LOG — Glass Lab</title>
+<style>
+:root{color-scheme:dark;--opacity:0;--blur:0px;--saturation:115%;--edge:.65;--shadow:.15;--radius:32px;--shine:.08;--refraction:13px;--dispersion:3px;--bg:#141719;--text:#f3f4f5;--muted:#aeb5bb;--panel:#202428;--tint:255,255,255}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.7 -apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif}body.light{color-scheme:light;--bg:#e8ecef;--text:#182027;--muted:#505e68;--panel:#f6f8fa}button,input,select{font:inherit}button,a,input,select{touch-action:manipulation}button,a{ -webkit-tap-highlight-color:transparent}button{cursor:pointer}a{color:inherit}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #73c6ff;outline-offset:4px}.layout{display:grid;grid-template-columns:minmax(0,1fr) 340px;min-height:100vh}.stage{position:relative;isolation:isolate;padding:28px 6vw 100px;overflow:hidden;background:radial-gradient(ellipse at 10% 20%,#608d9b44,transparent 42%),radial-gradient(ellipse at 95% 55%,#afa59826,transparent 40%)}.stage:before{content:"";position:absolute;z-index:-1;inset:0;opacity:.18;background-image:linear-gradient(#83949c40 1px,transparent 1px),linear-gradient(90deg,#83949c40 1px,transparent 1px);background-size:64px 64px;pointer-events:none}.glass{position:relative;isolation:isolate;border:1px solid rgba(255,255,255,calc(var(--edge)*.5));border-top-color:rgba(255,255,255,var(--edge));border-radius:var(--radius);background:linear-gradient(145deg,rgba(255,255,255,var(--shine)),transparent 45%,rgba(255,255,255,calc(var(--shine)*.25))),rgba(var(--tint),var(--opacity));backdrop-filter:blur(var(--blur)) saturate(var(--saturation));-webkit-backdrop-filter:blur(var(--blur)) saturate(var(--saturation));box-shadow:inset 0 1px 1px rgba(255,255,255,var(--edge)),inset 0 -1px 2px rgba(255,255,255,calc(var(--edge)*.3)),0 14px 36px rgba(0,0,0,var(--shadow));color:var(--text)}nav{display:flex;align-items:center;gap:18px;padding:10px 16px;max-width:780px;margin:auto}.mark{font-size:13px;font-weight:750;letter-spacing:.12em;white-space:nowrap}.links{display:flex;gap:4px;margin-left:auto}.nav-item,.theme{border:0;background:transparent;color:var(--text);padding:10px 15px;border-radius:999px;font-size:14px;text-decoration:none}.nav-item[aria-current=page]{background:#ffffff20}.theme{border:1px solid #919ba54d}.content{max-width:780px;margin:85px auto 0}.eyebrow{font-size:12px;letter-spacing:.2em;color:var(--muted);text-transform:uppercase}h1{font-size:clamp(40px,6vw,86px);letter-spacing:-.055em;line-height:1.05;font-weight:550;margin:22px 0 25px}h1 span{display:block}.intro{color:var(--muted);max-width:460px}.actions{display:flex;flex-wrap:wrap;gap:14px;margin-top:28px}.action{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:10px 24px;text-decoration:none;font-size:14px;font-weight:600;transition:transform .18s,filter .18s}.action:hover{filter:brightness(1.12);transform:translateY(-2px)}.action:active{transform:scale(.97)}.section-title{display:flex;align-items:center;justify-content:space-between;margin-top:80px;border-bottom:1px solid #87939d40;padding-bottom:15px}.section-title h2{font-size:16px;font-weight:500}.section-title span{font-size:12px;color:var(--muted)}.work{padding:28px 0}.work h3{font-size:28px;letter-spacing:-.03em;margin:10px 0}.work p{max-width:560px;color:var(--muted)}.visual{border-radius:18px;overflow:hidden;background:#101213;margin:25px 0}.visual img{width:100%;height:auto;display:block}.status{font-size:12px;color:var(--muted)}.note{font-size:13px;color:var(--muted)}.panel{background:var(--panel);border-left:1px solid #8d9aa329;padding:28px 24px;position:sticky;top:0;height:100dvh;overflow:auto}.panel h2{font-size:24px;letter-spacing:-.04em;margin:0}.panel p{font-size:13px;color:var(--muted);margin:8px 0 24px}.control{margin:22px 0}.control label{display:flex;justify-content:space-between;gap:12px;font-size:14px}.control output{font-variant-numeric:tabular-nums;color:var(--muted)}input[type=range]{width:100%;accent-color:#9cc9df;min-height:32px;margin:5px 0 0;cursor:pointer}.preset{width:100%;background:var(--bg);color:var(--text);border:1px solid #8d9aa350;border-radius:10px;padding:10px}.utility{display:flex;gap:8px}.utility button{flex:1;border:1px solid #8d9aa350;border-radius:10px;background:transparent;color:var(--text);font-size:13px;min-height:44px}.panel details{margin-top:20px;font-size:13px}.panel textarea{width:100%;height:180px;margin-top:12px;background:var(--bg);color:var(--text);padding:12px;border:1px solid #8d9aa350;border-radius:8px;font:12px/1.7 monospace}.feedback{min-height:24px;font-size:13px;color:var(--muted)}.panel .notice{border-top:1px solid #8d9aa329;padding-top:18px;margin-top:20px;font-size:12px}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.glass{background:var(--panel)}}
+@media(max-width:1000px){.layout{grid-template-columns:minmax(0,1fr) 300px}.stage{padding-inline:24px}.mark{font-size:11px}nav{gap:6px;padding:8px 10px}.nav-item,.theme{padding:9px 10px}.content{margin-top:65px}}
+@media(max-width:720px){.layout{display:flex;flex-direction:column}.stage{padding:20px 20px 50px}.panel{position:relative;height:auto;border-left:0;border-top:1px solid #8d9aa329}.content{margin-top:52px}h1{font-size:clamp(38px,10vw,66px)}.section-title{margin-top:55px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="layout">
+ <main class="stage">
+  <nav class="glass" aria-label="プレビューナビゲーション">
+   <span class="mark">SOU / LOG</span>
+   <div class="links"><a class="nav-item" href="#home" aria-current="page">Home</a><a class="nav-item" href="#work">Work</a></div>
+   <button class="theme" type="button" aria-label="ライトモードへ切り替える">Light</button>
+  </nav>
+  <div class="content" id="home">
+   <div class="eyebrow">Mobile development / Portfolio study</div>
+   <h1>SOSUKE<span>TAKAHASHI</span></h1>
+   <p>高橋 壮介 <span class="note">／ iOS Engineer</span></p>
+   <p class="intro">知的好奇心に従って、自分の手で形にする。<br>Swift・iOSアプリ開発を中心に、学びと制作を重ねています。</p>
+   <div class="actions"><a class="glass action" href="#work">制作物を見る ↗</a><a class="glass action" href="https://github.com/sou1213" target="_blank" rel="noopener noreferrer">GitHub ↗</a></div>
+   <section id="work">
+    <div class="section-title"><h2>Selected Work</h2><span>01 / Open Source</span></div>
+    <article class="work">
+     <span class="status">macOS · Swift · AppKit</span><h3>ChatGPT Touch Bar</h3>
+     <p>ChatGPTやCodexの利用状況を、MacBook ProのTouch Barで手元に。</p>
+     <div class="visual"><img src="./assets/chatgpt-touchbar/figma-readme-hero.png" alt="ChatGPT Touch Barの概要と利用枠メーター" width="1440" height="760"></div>
+     <div class="actions"><a class="glass action" href="https://github.com/sou1213/chatgpt-touchbar" target="_blank" rel="noopener noreferrer">View on GitHub ↗</a></div>
+    </article>
+   </section>
+   <p class="note">SOU / LOG — Material exploration, 2026</p>
+  </div>
+ </main>
+ <aside class="panel" aria-label="ガラス表現の調整">
+  <h2>Glass Lab</h2><p>スライダーを動かすと、ナビとボタンへ同時に反映されます。モバイルではこのパネルはプレビューの下に表示されます。</p>
+  <label for="preset" class="note">プリセット</label>
+  <select id="preset" class="preset"><option value="selected">Selected — 採用値</option><option value="clear">Clear — 透明感</option><option value="frosted">Frosted — 曇りガラス</option><option value="custom" disabled>Custom — 調整中</option></select>
+  <div id="controls"></div>
+  <div class="utility"><button id="reset" type="button">標準に戻す</button><button id="copy" type="button">設定をコピー</button></div>
+  <div class="feedback" role="status" aria-live="polite"></div>
+  <details><summary>現在のCSS設定</summary><textarea id="settings" readonly aria-label="現在のCSS変数" spellcheck="false"></textarea></details>
+  <p class="notice" id="renderer-status">WebGLを初期化しています。</p>
+  <p class="note">文章・作品画像を含むページの描画を取り込み、ガラスの下で屈折させます。静的コンテンツ向けの試作です。動画や連続アニメーションの同期は対象外です。</p>
+ </aside>
+</div>
+<script>
+const definitions=[
+ ['opacity','背景の不透明度',0,60,1,0,'%'],
+ ['blur','背景のぼかし',0,48,1,0,'px'],
+ ['saturation','背景の彩度',0,220,5,115,'%'],
+ ['edge','縁のハイライト',0,100,1,65,'%'],
+ ['shine','表面の光',0,50,1,8,'%'],
+ ['shadow','影の濃さ',0,60,1,15,'%'],
+ ['radius','角丸',0,40,1,32,'px'],
+ ['refraction','屈折の強さ',0,60,1,13,'px'],
+ ['dispersion','色収差',0,12,0.5,3,'px']
+];
+const presets={selected:[0,0,115,65,8,15,32,13,3],clear:[5,5,115,65,8,15,32,38,4],frosted:[32,36,110,35,12,18,24,12,1]};
+const values={};
+const root=document.documentElement;
+const controls=document.querySelector('#controls');
+const settings=document.querySelector('#settings');
+const preset=document.querySelector('#preset');
+function cssValue(key,value){return ['opacity','edge','shine','shadow'].includes(key)?String(value/100):value+(key==='saturation'?'%':'px')}
+function update(){
+ for(const [key,,, , ,initial,unit] of definitions){
+  const value=values[key]??initial;
+  root.style.setProperty('--'+key,cssValue(key,value));
+  document.getElementById(key).value=value;
+  document.getElementById(key+'-out').value=value+unit;
+ }
+ settings.value=':root {\n'+definitions.map(([key])=>'  --'+key+': '+cssValue(key,values[key])+';').join('\n')+'\n}';
+ window.dispatchEvent(new Event('glasschange'));
+}
+for(const [key,label,min,max,step,initial,unit] of definitions){
+ values[key]=initial;
+ const div=document.createElement('div');div.className='control';
+ const lab=document.createElement('label');lab.htmlFor=key;lab.append(label);
+ const output=document.createElement('output');output.id=key+'-out';output.htmlFor=key;lab.append(output);
+ const input=document.createElement('input');Object.assign(input,{type:'range',id:key,min,max,step,value:initial});
+ input.addEventListener('input',()=>{values[key]=Number(input.value);preset.value='custom';update()});
+ div.append(lab,input);controls.append(div);
+}
+function applyPreset(name){definitions.forEach(([key],i)=>values[key]=presets[name][i]);preset.value=name;update()}
+preset.addEventListener('change',()=>applyPreset(preset.value));
+document.querySelector('#reset').addEventListener('click',()=>{applyPreset('selected');document.querySelector('.feedback').textContent='採用設定に戻しました。'});
+document.querySelector('.theme').addEventListener('click',event=>{const light=document.body.classList.toggle('light');event.currentTarget.textContent=light?'Dark':'Light';event.currentTarget.setAttribute('aria-label',light?'ダークモードへ切り替える':'ライトモードへ切り替える')});
+document.querySelectorAll('.nav-item').forEach(link=>link.addEventListener('click',()=>{document.querySelectorAll('.nav-item').forEach(item=>item.removeAttribute('aria-current'));link.setAttribute('aria-current','page')}));
+document.querySelector('#copy').addEventListener('click',async()=>{const feedback=document.querySelector('.feedback');try{await navigator.clipboard.writeText(settings.value);feedback.textContent='CSS設定をコピーしました。'}catch{settings.closest('details').open=true;settings.focus();settings.select();feedback.textContent='設定を選択しました。手動でコピーしてください。'}});
+update();
+</script>
+<script src="./html2canvas-1.4.1.min.js"></script>
+<script src="./glass-webgl.js"></script>
+</body>
+</html>
