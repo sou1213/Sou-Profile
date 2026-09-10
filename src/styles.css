@@ -622,6 +622,11 @@ p {
     transform: rotate(180deg);
 }
 
+/* html2canvas needs explicit display:none for closed native details. */
+.work-details:not([open]) .work-details__content {
+    display: none;
+}
+
 .work-details__content {
     padding: 5px 0 24px;
 }
