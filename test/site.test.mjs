@@ -240,6 +240,7 @@ test("robots.txtとサイトマップはCloudflareの正式URLを案内する", 
     assert.doesNotMatch(sitemap, /github\.io/);
     assert.match(buildScript, /"robots\.txt"/);
     assert.match(buildScript, /"sitemap\.xml"/);
+    assert.doesNotMatch(buildScript, /"_redirects"/);
 });
 
 test("Cloudflare公開物へ基本的な防御ヘッダーを設定する", async () => {

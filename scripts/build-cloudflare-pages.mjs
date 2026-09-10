@@ -16,8 +16,7 @@ const publicFiles = [
     "theme-bootstrap.js",
     "robots.txt",
     "sitemap.xml",
-    "_headers",
-    "_redirects"
+    "_headers"
 ];
 
 for (const file of publicFiles) {
