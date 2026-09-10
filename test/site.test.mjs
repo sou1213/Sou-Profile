@@ -146,6 +146,9 @@ test("ChatGPT Touch Barの画像を公開物へ含める", async () => {
     assert.match(buildScript, /\{ recursive: true \}/);
     assert.match(app, /\.\/assets\/chatgpt-touchbar\/figma-readme-hero\.png/);
     assert.match(app, /\.\/assets\/chatgpt-touchbar\/safari-touch-bar\.png/);
+    // html2canvas clones the whole document; even a closed details image must not be lazy in Safari.
+    assert.doesNotMatch(app, /loading="lazy"/);
+    assert.match(app, /src=\{touchBarImage\}[^>]*loading="eager"/);
 });
 
 test("ナビは採用したLiquid Glass設定と復旧可能なWebGL描画を使う", async () => {

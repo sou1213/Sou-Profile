@@ -179,7 +179,8 @@ function WorkPage() {
                             <p>5時間枠と週次枠の残り容量、次のリセット時刻を手元で確認できます。対象外のアプリやWebサイトへ切り替えると、Touch Barは自動的に通常の表示へ戻ります。</p>
                             <p>既存のCodex認証を利用してローカルで動作し、APIキーや有料の開発者APIは必要ありません。アクセス解析、テレメトリ、外部データベースを使用せず、Safari連携では現在のタブURLだけを確認します。</p>
                             <figure className="work-visual work-visual--touchbar">
-                                <img src={touchBarImage} alt="SafariでChatGPTを使用しているときのTouch Bar表示" width="2008" height="60" loading="lazy" decoding="async" />
+                                {/* Safari can leave html2canvas's cloned document loading forever with lazy images. */}
+                                <img src={touchBarImage} alt="SafariでChatGPTを使用しているときのTouch Bar表示" width="2008" height="60" loading="eager" decoding="async" />
                                 <figcaption>SafariでChatGPTを使用中のTouch Bar表示</figcaption>
                             </figure>
                             <ul className="feature-list">
