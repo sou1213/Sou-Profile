@@ -155,6 +155,7 @@ class NavigationGlassRenderer {
         this.frameRequest = null;
         this.captureTimer = null;
         this.capturePromise = null;
+        this.capturePending = false;
         this.destroyed = false;
         this.documentSize = [1, 1];
         this.abortController = new AbortController();
@@ -299,11 +300,16 @@ class NavigationGlassRenderer {
 
     async capture() {
         if (
-            this.capturePromise ||
             this.destroyed ||
             !this.gl ||
             this.backdropElement.dataset.transitioning === "true"
         ) return;
+
+        if (this.capturePromise) {
+            this.capturePending = true;
+            return;
+        }
+        this.capturePending = false;
 
         this.capturePromise = (async () => {
             const gl = this.gl;
@@ -350,10 +356,12 @@ class NavigationGlassRenderer {
         try {
             await this.capturePromise;
         } catch (error) {
+            if (this.destroyed) return;
             console.warn("Liquid Glass capture fallback:", error);
             this.useFallback();
         } finally {
             this.capturePromise = null;
+            if (this.capturePending && !this.destroyed) this.queueCapture(0);
         }
     }
 
@@ -400,6 +408,7 @@ class NavigationGlassRenderer {
     }
 
     queueCapture(delay = 180) {
+        if (this.destroyed) return;
         if (this.backdropElement.dataset.transitioning === "true") return;
 
         clearTimeout(this.captureTimer);
@@ -407,6 +416,7 @@ class NavigationGlassRenderer {
     }
 
     useFallback() {
+        if (this.destroyed) return;
         document.documentElement.dataset.glassRenderer = "fallback";
         this.canvas.hidden = true;
     }
