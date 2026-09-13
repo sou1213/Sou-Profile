@@ -36,10 +36,15 @@ await build({
 
 const { render } = await import(pathToFileURL(join(renderOutput, "render.js")));
 
-for (const [file, page] of [["index.html", "home"], ["work.html", "work"]]) {
+for (const [file, page, locale] of [
+    ["index.html", "home", "ja"],
+    ["work.html", "work", "ja"],
+    ["en/index.html", "home", "en"],
+    ["en/work.html", "work", "en"]
+]) {
     const outputFile = join(outputRoot, file);
     const html = await readFile(outputFile, "utf8");
-    const markup = render(page);
+    const markup = render(page, locale);
     await writeFile(
         outputFile,
         html.replace('<div id="root"></div>', `<div id="root">${markup}</div>`)

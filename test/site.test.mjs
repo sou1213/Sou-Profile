@@ -31,25 +31,59 @@ const readJsonLd = (html) => {
 };
 
 test("HomeとWorkで共通ナビゲーションを提供する", async () => {
-    const [home, work, app] = await Promise.all([
+    const [home, work, enHome, enWork, app] = await Promise.all([
         read("index.html"),
         read("work.html"),
+        read("en/index.html"),
+        read("en/work.html"),
         read("src/App.jsx")
     ]);
 
-    for (const [html, page] of [[home, "home"], [work, "work"]]) {
-        assert.match(html, new RegExp(`<body data-page="${page}">`));
+    for (const [html, page, locale] of [
+        [home, "home", "ja"],
+        [work, "work", "ja"],
+        [enHome, "home", "en"],
+        [enWork, "work", "en"]
+    ]) {
+        assert.match(html, new RegExp(`<html lang="${locale}">`));
+        assert.match(html, new RegExp(`<body data-page="${page}" data-locale="${locale}">`));
         assert.match(html, /<div id="root"><\/div>/);
-        assert.match(html, /src="\.\/src\/main\.jsx"/);
-        assert.match(html, /src="\.\/theme-bootstrap\.js"/);
+        assert.match(html, /src="(?:\.\/|\/)src\/main\.jsx"/);
+        assert.match(html, /src="(?:\.\/|\/)theme-bootstrap\.js"/);
     }
 
-    assert.match(app, /<nav className="site-nav" aria-label="メインナビゲーション"/);
-    assert.match(app, /href="\.\/index\.html"/);
-    assert.match(app, /href="\.\/work\.html"/);
+    assert.match(app, /<nav className="site-nav" aria-label=\{text\.label\}/);
+    assert.match(app, /href=\{localePaths\[locale\]\.home\}/);
+    assert.match(app, /href=\{localePaths\[locale\]\.work\}/);
     assert.match(app, /page === "home" \? "page"/);
     assert.match(app, /page === "work" \? "page"/);
     assert.match(app, /className="nav-active-indicator"/);
+});
+
+test("言語切り替えは現在ページを保ち、次に表示する言語をラベルにする", async () => {
+    const [app, content, home, work, enHome, enWork] = await Promise.all([
+        read("src/App.jsx"),
+        read("src/siteContent.js"),
+        read("index.html"),
+        read("work.html"),
+        read("en/index.html"),
+        read("en/work.html")
+    ]);
+
+    assert.match(app, /const targetLocale = locale === "ja" \? "en" : "ja"/);
+    assert.match(app, /href=\{localePaths\[targetLocale\]\[visualPage\]\}/);
+    assert.match(app, /hrefLang=\{targetLocale\}/);
+    assert.match(app, /className="language-toggle"/);
+    assert.match(content, /targetLanguage: "EN"/);
+    assert.match(content, /targetLanguage: "JP"/);
+    assert.match(content, /switchLanguage: "英語に切り替える"/);
+    assert.match(content, /switchLanguage: "Switch to Japanese"/);
+
+    for (const html of [home, work, enHome, enWork]) {
+        assert.match(html, /<link rel="alternate" hreflang="ja"/);
+        assert.match(html, /<link rel="alternate" hreflang="en"/);
+        assert.match(html, /<link rel="alternate" hreflang="x-default"/);
+    }
 });
 
 test("初回だけシステムテーマを採用し、その後は保存した選択を使う", async () => {
@@ -107,7 +141,11 @@ test("ページ切り替えはナビとページを同じ方向へアニメー�
 });
 
 test("Workページは制作物と未完成の範囲を明記する", async () => {
-    const work = await read("src/App.jsx");
+    const [app, content] = await Promise.all([
+        read("src/App.jsx"),
+        read("src/siteContent.js")
+    ]);
+    const work = `${app}\n${content}`;
 
     assert.match(work, /ChatGPT Touch Bar/);
     assert.match(work, /Open Source/);
@@ -115,8 +153,8 @@ test("Workページは制作物と未完成の範囲を明記する", async () =
     assert.match(work, /MIT License/);
     assert.match(work, /<details className="work-details">/);
     assert.match(work, /続きを見る/);
-    assert.match(work, /\.\/assets\/chatgpt-touchbar\/figma-readme-hero\.png/);
-    assert.match(work, /\.\/assets\/chatgpt-touchbar\/safari-touch-bar\.png/);
+    assert.match(work, /\/assets\/chatgpt-touchbar\/figma-readme-hero\.png/);
+    assert.match(work, /\/assets\/chatgpt-touchbar\/safari-touch-bar\.png/);
     assert.match(work, /APIキーや有料の開発者APIは必要ありません/);
     assert.match(work, /Touch Bar搭載MacBook ProとmacOS 12以降/);
     assert.match(work, /TaskManager/);
@@ -144,8 +182,8 @@ test("ChatGPT Touch Barの画像を公開物へ含める", async () => {
     assert.ok(screenshot.size > 0);
     assert.match(buildScript, /"assets"/);
     assert.match(buildScript, /\{ recursive: true \}/);
-    assert.match(app, /\.\/assets\/chatgpt-touchbar\/figma-readme-hero\.png/);
-    assert.match(app, /\.\/assets\/chatgpt-touchbar\/safari-touch-bar\.png/);
+    assert.match(app, /\/assets\/chatgpt-touchbar\/figma-readme-hero\.png/);
+    assert.match(app, /\/assets\/chatgpt-touchbar\/safari-touch-bar\.png/);
     // html2canvas clones the whole document; even a closed details image must not be lazy in Safari.
     assert.doesNotMatch(app, /loading="lazy"/);
     assert.match(app, /src=\{touchBarImage\}[^>]*loading="eager"/);
@@ -185,7 +223,12 @@ test("ナビは採用したLiquid Glass設定と復旧可能なWebGL描画を使
 });
 
 test("各ページは検索とSNS共有向けの固有メタデータを持つ", async () => {
-    const [home, work] = await Promise.all([read("index.html"), read("work.html")]);
+    const [home, work, enHome, enWork] = await Promise.all([
+        read("index.html"),
+        read("work.html"),
+        read("en/index.html"),
+        read("en/work.html")
+    ]);
 
     assert.match(home, /<title>高橋壮介 \| Swift・iOSアプリ開発ポートフォリオ<\/title>/);
     assert.match(home, /<link rel="canonical" href="https:\/\/sou-profile\.pages\.dev\/">/);
@@ -197,6 +240,12 @@ test("各ページは検索とSNS共有向けの固有メタデータを持つ",
     assert.match(work, /<meta property="og:title" content="制作実績 \| ChatGPT Touch Bar・iOS\/Webアプリ \| 高橋壮介">/);
     assert.match(work, /<meta name="twitter:card" content="summary">/);
 
+    assert.match(enHome, /<title>Sosuke Takahashi \| Swift &amp; iOS Developer Portfolio<\/title>/);
+    assert.match(enHome, /<link rel="canonical" href="https:\/\/sou-profile\.pages\.dev\/en\/">/);
+    assert.match(enHome, /<meta property="og:locale" content="en_US">/);
+    assert.match(enWork, /<title>Selected Work \| macOS, iOS &amp; Web Apps \| Sosuke Takahashi<\/title>/);
+    assert.match(enWork, /<link rel="canonical" href="https:\/\/sou-profile\.pages\.dev\/en\/work">/);
+
     assert.notEqual(
         home.match(/<meta name="description" content="([^"]+)">/)[1],
         work.match(/<meta name="description" content="([^"]+)">/)[1]
@@ -204,12 +253,20 @@ test("各ページは検索とSNS共有向けの固有メタデータを持つ",
 });
 
 test("構造化データはプロフィールと制作物を正しく表す", async () => {
-    const [home, work] = await Promise.all([read("index.html"), read("work.html")]);
+    const [home, work, enHome, enWork] = await Promise.all([
+        read("index.html"),
+        read("work.html"),
+        read("en/index.html"),
+        read("en/work.html")
+    ]);
     const homeData = readJsonLd(home);
     const workData = readJsonLd(work);
+    const enHomeData = readJsonLd(enHome);
+    const enWorkData = readJsonLd(enWork);
 
     assert.equal(homeData["@type"], "ProfilePage");
     assert.equal(homeData.mainEntity["@type"], "Person");
+    assert.equal(homeData.inLanguage, "ja");
     assert.equal(homeData.mainEntity.name, "高橋 壮介");
     assert.deepEqual(homeData.mainEntity.sameAs, [
         "https://github.com/sou1213",
@@ -217,6 +274,7 @@ test("構造化データはプロフィールと制作物を正しく表す", as
     ]);
 
     assert.equal(workData["@type"], "CollectionPage");
+    assert.equal(workData.inLanguage, "ja");
     assert.deepEqual(workData.hasPart.map((item) => item.name), [
         "ChatGPT Touch Bar",
         "TaskManager",
@@ -226,6 +284,11 @@ test("構造化データはプロフィールと制作物を正しく表す", as
     const touchBar = workData.hasPart[0];
     assert.equal(touchBar.url, "https://github.com/sou1213/chatgpt-touchbar");
     assert.equal(touchBar.applicationCategory, "UtilitiesApplication");
+
+    assert.equal(enHomeData.inLanguage, "en");
+    assert.equal(enHomeData.mainEntity.name, "Sosuke Takahashi");
+    assert.equal(enWorkData.inLanguage, "en");
+    assert.deepEqual(enWorkData.hasPart.map((item) => item.name), workData.hasPart.map((item) => item.name));
 });
 
 test("robots.txtとサイトマップはCloudflareの正式URLを案内する", async () => {
@@ -240,6 +303,9 @@ test("robots.txtとサイトマップはCloudflareの正式URLを案内する", 
     assert.match(robots, /^Sitemap: https:\/\/sou-profile\.pages\.dev\/sitemap\.xml$/m);
     assert.match(sitemap, /<loc>https:\/\/sou-profile\.pages\.dev\/<\/loc>/);
     assert.match(sitemap, /<loc>https:\/\/sou-profile\.pages\.dev\/work<\/loc>/);
+    assert.match(sitemap, /<loc>https:\/\/sou-profile\.pages\.dev\/en\/<\/loc>/);
+    assert.match(sitemap, /<loc>https:\/\/sou-profile\.pages\.dev\/en\/work<\/loc>/);
+    assert.match(sitemap, /hreflang="x-default"/);
     assert.doesNotMatch(sitemap, /github\.io/);
     assert.match(buildScript, /"robots\.txt"/);
     assert.match(buildScript, /"sitemap\.xml"/);

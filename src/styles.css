@@ -277,7 +277,8 @@ summary:focus-visible {
 }
 
 .nav-link,
-.theme-toggle {
+.theme-toggle,
+.language-toggle {
     min-height: 38px;
     border-radius: 999px;
     color: var(--muted);
@@ -336,16 +337,40 @@ summary:focus-visible {
     transform: translateX(calc(100% + 4px));
 }
 
-.theme-toggle {
+.nav-controls {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.theme-toggle,
+.language-toggle {
     min-width: 58px;
     padding: 7px 11px;
     border: 1px solid var(--line);
     background: transparent;
+}
+
+.theme-toggle {
     cursor: pointer;
 }
 
-.theme-toggle:hover {
+.language-toggle {
+    min-width: 42px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: color 180ms ease, background-color 180ms ease, transform 120ms ease;
+}
+
+.theme-toggle:hover,
+.language-toggle:hover {
     color: var(--accent);
+}
+
+.language-toggle:active {
+    transform: scale(0.95);
 }
 
 .container {
@@ -724,9 +749,18 @@ footer {
         padding-inline: 9px;
     }
 
+    .nav-controls {
+        gap: 4px;
+    }
+
     .theme-toggle {
         min-width: 52px;
         padding-inline: 8px;
+    }
+
+    .language-toggle {
+        min-width: 38px;
+        padding-inline: 7px;
     }
 
     .kanji {

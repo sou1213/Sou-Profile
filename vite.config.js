@@ -11,7 +11,9 @@ export default defineConfig({
         rollupOptions: {
             input: {
                 home: resolve(import.meta.dirname, "index.html"),
-                work: resolve(import.meta.dirname, "work.html")
+                work: resolve(import.meta.dirname, "work.html"),
+                enHome: resolve(import.meta.dirname, "en/index.html"),
+                enWork: resolve(import.meta.dirname, "en/work.html")
             }
         }
     }
