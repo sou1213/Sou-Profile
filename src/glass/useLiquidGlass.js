@@ -302,6 +302,7 @@ class NavigationGlassRenderer {
         if (
             this.destroyed ||
             !this.gl ||
+            this.backdropElement.dataset.themeChanging === "true" ||
             this.backdropElement.dataset.transitioning === "true"
         ) return;
 
@@ -409,6 +410,7 @@ class NavigationGlassRenderer {
 
     queueCapture(delay = 180) {
         if (this.destroyed) return;
+        if (this.backdropElement.dataset.themeChanging === "true") return;
         if (this.backdropElement.dataset.transitioning === "true") return;
 
         clearTimeout(this.captureTimer);

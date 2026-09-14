@@ -263,6 +263,8 @@ function initialTheme() {
 
 export function App({ page, locale = "ja" }) {
     const [theme, setTheme] = useState(initialTheme);
+    const [themeChanging, setThemeChanging] = useState(false);
+    const themeTimerRef = useRef(null);
     const [currentPage, setCurrentPage] = useState(page);
     const [pageTransition, setPageTransition] = useState(null);
     const canvasRef = useRef(null);
@@ -272,6 +274,18 @@ export function App({ page, locale = "ja" }) {
     const currentPageRef = useRef(page);
     const pageTransitionRef = useRef(null);
     const pageTransitionTimerRef = useRef(null);
+
+    const toggleTheme = () => {
+        clearTimeout(themeTimerRef.current);
+        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        setThemeChanging(!reduceMotion);
+        setTheme((current) => current === "dark" ? "light" : "dark");
+        if (!reduceMotion) {
+            themeTimerRef.current = setTimeout(() => setThemeChanging(false), 400);
+        }
+    };
+
+    useEffect(() => () => clearTimeout(themeTimerRef.current), []);
 
     const finishPageTransition = useCallback(() => {
         const activeTransition = pageTransitionRef.current;
@@ -368,7 +382,7 @@ export function App({ page, locale = "ja" }) {
         canvasRef,
         backdropRef,
         lensRef: navigationRef,
-        refreshKey: `${locale}-${currentPage}-${theme}`
+        refreshKey: `${locale}-${currentPage}-${theme}-${themeChanging}`
     });
 
     const visiblePages = pageTransition
@@ -383,6 +397,7 @@ export function App({ page, locale = "ja" }) {
         <>
             <div
                 className="site-shell"
+                data-theme-changing={themeChanging ? "true" : undefined}
                 data-transitioning={pageTransition ? "true" : undefined}
                 ref={backdropRef}
             >
@@ -418,7 +433,7 @@ export function App({ page, locale = "ja" }) {
                 visualPage={visualPage}
                 theme={theme}
                 onNavigate={beginPageTransition}
-                onToggleTheme={() => setTheme((current) => current === "dark" ? "light" : "dark")}
+                onToggleTheme={toggleTheme}
             />
         </>
     );

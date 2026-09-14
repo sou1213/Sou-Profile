@@ -90,6 +90,7 @@ summary:focus-visible {
         radial-gradient(circle at 18% 9%, rgb(114 168 189 / 10%), transparent 28rem),
         radial-gradient(circle at 84% 46%, rgb(195 175 151 / 7%), transparent 34rem),
         var(--bg);
+    background-color: var(--bg);
 }
 
 .site-shell::before {
@@ -246,7 +247,8 @@ summary:focus-visible {
     -webkit-backdrop-filter: none;
 }
 
-:root[data-glass-renderer="ready"] .site-shell[data-transitioning="true"] ~ .site-nav {
+:root[data-glass-renderer="ready"] .site-shell[data-transitioning="true"] ~ .site-nav,
+:root[data-glass-renderer="ready"] .site-shell[data-theme-changing="true"] ~ .site-nav {
     border-color: rgb(255 255 255 / var(--glass-edge-alpha));
     border-top-color: rgb(255 255 255 / var(--glass-edge-top-alpha));
     background:
@@ -785,6 +787,58 @@ footer {
         align-items: flex-start;
         flex-direction: column;
     }
+}
+
+/* Keep theme colors in sync while retaining the controls' short press motion. */
+html,
+body,
+.site-shell,
+.site-shell::before,
+.site-nav,
+.site-mark,
+.nav-link,
+.theme-toggle,
+.language-toggle,
+.nav-active-indicator,
+h1, h2, h3, p,
+.kanji,
+.label,
+.keywords,
+.slash,
+.role-badge,
+.status-badge,
+.work-card,
+.work-card__meta,
+.work-visual,
+.work-details,
+.work-details summary,
+.details-icon,
+.feature-list,
+.notice-box,
+.tech-list span,
+.primary-link,
+.private-note,
+.btn-sns,
+.btn-sns svg,
+footer {
+    transition:
+        background-color 400ms ease,
+        color 400ms ease,
+        border-color 400ms ease,
+        box-shadow 400ms ease,
+        fill 400ms ease,
+        transform 120ms ease;
+}
+
+.nav-active-indicator {
+    transition:
+        transform var(--page-transition-duration) var(--page-transition-easing),
+        background-color 400ms ease,
+        box-shadow 400ms ease;
+}
+
+.site-shell[data-theme-changing="true"] ~ .glass-canvas {
+    opacity: 0;
 }
 
 @media (prefers-reduced-transparency: reduce) {
