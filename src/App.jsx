@@ -6,11 +6,21 @@ const heroImage = "/assets/chatgpt-touchbar/figma-readme-hero.png";
 const touchBarImage = "/assets/chatgpt-touchbar/safari-touch-bar.png";
 const themeStorageKey = "sou-profile-theme";
 const pageTransitionFallbackDelay = 600;
-const pageOrder = { home: 0, work: 1 };
+const pageOrder = { home: 0, work: 1, blog: 2, blogPost: 3 };
 const openGraphLocales = { ja: "ja_JP", en: "en_US" };
 
 function pageFromPath(pathname) {
-    return /\/work(?:\.html)?\/?$/.test(pathname) ? "work" : "home";
+    if (/\/blog\/first-hackathon(?:\.html)?\/?$/.test(pathname)) return "blogPost";
+    const match = pathname.match(/\/(work|blog)(?:\.html)?\/?$/);
+    return match ? match[1] : "home";
+}
+
+function handlePageLink(event, targetPage, onNavigate) {
+    const isModifiedClick = event.metaKey || event.ctrlKey || event.shiftKey || event.altKey;
+    if (event.defaultPrevented || event.button !== 0 || isModifiedClick) return;
+
+    event.preventDefault();
+    onNavigate(targetPage, event.currentTarget.href);
 }
 
 function updateDocumentMetadata(page, locale) {
@@ -24,6 +34,7 @@ function updateDocumentMetadata(page, locale) {
     document.querySelector('meta[name="description"]')?.setAttribute("content", metadata.description);
     document.querySelector('link[rel="canonical"]')?.setAttribute("href", metadata.canonical);
     document.querySelector('meta[property="og:title"]')?.setAttribute("content", metadata.title);
+    document.querySelector('meta[property="og:type"]')?.setAttribute("content", page === "blogPost" ? "article" : "website");
     document.querySelector('meta[property="og:description"]')?.setAttribute("content", metadata.description);
     document.querySelector('meta[property="og:url"]')?.setAttribute("content", metadata.canonical);
     document.querySelector('meta[property="og:locale"]')?.setAttribute("content", openGraphLocales[locale]);
@@ -40,19 +51,11 @@ function updateDocumentMetadata(page, locale) {
 }
 
 const SiteNavigation = forwardRef(function SiteNavigation(
-    { locale, page, visualPage, theme, onNavigate, onToggleTheme },
+    { locale, page, visualPage, languagePage, theme, onNavigate, onToggleTheme },
     ref
 ) {
     const text = siteContent[locale].nav;
     const targetLocale = locale === "ja" ? "en" : "ja";
-
-    const handleNavigation = (event, targetPage) => {
-        const isModifiedClick = event.metaKey || event.ctrlKey || event.shiftKey || event.altKey;
-        if (event.defaultPrevented || event.button !== 0 || isModifiedClick) return;
-
-        event.preventDefault();
-        onNavigate(targetPage, event.currentTarget.href);
-    };
 
     return (
         <nav className="site-nav" aria-label={text.label} ref={ref}>
@@ -69,7 +72,7 @@ const SiteNavigation = forwardRef(function SiteNavigation(
                     data-page="home"
                     href={localePaths[locale].home}
                     aria-current={page === "home" ? "page" : undefined}
-                    onClick={(event) => handleNavigation(event, "home")}
+                    onClick={(event) => handlePageLink(event, "home", onNavigate)}
                 >
                     <span className="nav-label">{text.home}</span>
                 </a>
@@ -78,9 +81,18 @@ const SiteNavigation = forwardRef(function SiteNavigation(
                     data-page="work"
                     href={localePaths[locale].work}
                     aria-current={page === "work" ? "page" : undefined}
-                    onClick={(event) => handleNavigation(event, "work")}
+                    onClick={(event) => handlePageLink(event, "work", onNavigate)}
                 >
                     <span className="nav-label">{text.work}</span>
+                </a>
+                <a
+                    className="nav-link"
+                    data-page="blog"
+                    href={localePaths[locale].blog}
+                    aria-current={page === "blog" ? "page" : page === "blogPost" ? "location" : undefined}
+                    onClick={(event) => handlePageLink(event, "blog", onNavigate)}
+                >
+                    <span className="nav-label">{text.blog}</span>
                 </a>
             </div>
             <div className="nav-controls">
@@ -96,7 +108,7 @@ const SiteNavigation = forwardRef(function SiteNavigation(
                 </button>
                 <a
                     className="language-toggle"
-                    href={localePaths[targetLocale][visualPage]}
+                    href={localePaths[targetLocale][languagePage]}
                     hrefLang={targetLocale}
                     lang={targetLocale}
                     aria-label={text.switchLanguage}
@@ -252,6 +264,76 @@ function WorkPage({ locale }) {
     );
 }
 
+function BlogPage({ locale, onNavigate }) {
+    const text = siteContent[locale].blog;
+
+    return (
+        <main className="container container--blog" tabIndex="-1">
+            <header className="page-header">
+                <p className="eyebrow">{text.eyebrow}</p>
+                <h1>{text.title}</h1>
+                <p className="page-lead">{text.lead}</p>
+            </header>
+
+            <section aria-labelledby="blog-posts-title">
+                <h2 id="blog-posts-title">{text.latestTitle}</h2>
+                <article className="blog-preview">
+                    <a
+                        className="blog-preview__link"
+                        href={localePaths[locale].blogPost}
+                        onClick={(event) => handlePageLink(event, "blogPost", onNavigate)}
+                    >
+                        <h3>{text.article.title}</h3>
+                        <p>{text.article.excerpt}</p>
+                        <span className="blog-preview__more">{text.readArticle} <span aria-hidden="true">→</span></span>
+                    </a>
+                </article>
+            </section>
+
+            <Footer />
+        </main>
+    );
+}
+
+function BlogPostPage({ locale, onNavigate }) {
+    const text = siteContent[locale].blog;
+
+    return (
+        <main className="container container--blog" tabIndex="-1">
+            <header className="page-header page-header--blog-post">
+                <p className="eyebrow">{text.eyebrow}</p>
+                <h1>{text.title}</h1>
+            </header>
+
+            <a
+                className="blog-back-link"
+                href={localePaths[locale].blog}
+                onClick={(event) => handlePageLink(event, "blog", onNavigate)}
+            >
+                <span aria-hidden="true">←</span> {text.backToBlog}
+            </a>
+
+            <article className="blog-article">
+                <h2>{text.article.title}</h2>
+                {text.article.sections.map((section) => (
+                    <section className="blog-article__section" key={section.heading}>
+                        <h3>{section.heading}</h3>
+                        {section.paragraphs.map((paragraph, index) => (
+                            <p key={index}>
+                                {typeof paragraph === "string" ? paragraph : <>
+                                    {paragraph.before}<strong>{paragraph.strong}</strong>{paragraph.after}
+                                </>}
+                            </p>
+                        ))}
+                    </section>
+                ))}
+            </article>
+
+            <Footer />
+        </main>
+    );
+}
+
 function Footer() {
     return <footer>&copy; 2026 SOSUKE TAKAHASHI</footer>;
 }
@@ -391,7 +473,8 @@ export function App({ page, locale = "ja" }) {
             { page: pageTransition.to, role: "incoming" }
         ]
         : [{ page: currentPage, role: "current" }];
-    const visualPage = pageTransition?.to ?? currentPage;
+    const languagePage = pageTransition?.to ?? currentPage;
+    const visualPage = languagePage === "blogPost" ? "blog" : languagePage;
 
     return (
         <>
@@ -420,7 +503,10 @@ export function App({ page, locale = "ja" }) {
                                 if (event.currentTarget === event.target) finishPageTransition();
                             } : undefined}
                         >
-                            {visiblePage === "work" ? <WorkPage locale={locale} /> : <HomePage locale={locale} />}
+                            {visiblePage === "work" ? <WorkPage locale={locale} />
+                                : visiblePage === "blog" ? <BlogPage locale={locale} onNavigate={beginPageTransition} />
+                                    : visiblePage === "blogPost" ? <BlogPostPage locale={locale} onNavigate={beginPageTransition} />
+                                    : <HomePage locale={locale} />}
                         </div>
                     ))}
                 </div>
@@ -431,6 +517,7 @@ export function App({ page, locale = "ja" }) {
                 locale={locale}
                 page={currentPage}
                 visualPage={visualPage}
+                languagePage={languagePage}
                 theme={theme}
                 onNavigate={beginPageTransition}
                 onToggleTheme={toggleTheme}

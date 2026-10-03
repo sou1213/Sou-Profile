@@ -7,7 +7,7 @@ const root = document.getElementById("root");
 const app = (
     <StrictMode>
         <App
-            page={document.body.dataset.page === "work" ? "work" : "home"}
+            page={["work", "blog", "blogPost"].includes(document.body.dataset.page) ? document.body.dataset.page : "home"}
             locale={document.body.dataset.locale === "en" ? "en" : "ja"}
         />
     </StrictMode>

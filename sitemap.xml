@@ -29,4 +29,32 @@
         <xhtml:link rel="alternate" hreflang="x-default" href="https://sou-profile.pages.dev/work" />
         <lastmod>2026-09-13</lastmod>
     </url>
+    <url>
+        <loc>https://sou-profile.pages.dev/blog</loc>
+        <xhtml:link rel="alternate" hreflang="ja" href="https://sou-profile.pages.dev/blog" />
+        <xhtml:link rel="alternate" hreflang="en" href="https://sou-profile.pages.dev/en/blog" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://sou-profile.pages.dev/blog" />
+        <lastmod>2026-10-03</lastmod>
+    </url>
+    <url>
+        <loc>https://sou-profile.pages.dev/en/blog</loc>
+        <xhtml:link rel="alternate" hreflang="ja" href="https://sou-profile.pages.dev/blog" />
+        <xhtml:link rel="alternate" hreflang="en" href="https://sou-profile.pages.dev/en/blog" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://sou-profile.pages.dev/blog" />
+        <lastmod>2026-10-03</lastmod>
+    </url>
+    <url>
+        <loc>https://sou-profile.pages.dev/blog/first-hackathon</loc>
+        <xhtml:link rel="alternate" hreflang="ja" href="https://sou-profile.pages.dev/blog/first-hackathon" />
+        <xhtml:link rel="alternate" hreflang="en" href="https://sou-profile.pages.dev/en/blog/first-hackathon" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://sou-profile.pages.dev/blog/first-hackathon" />
+        <lastmod>2026-10-03</lastmod>
+    </url>
+    <url>
+        <loc>https://sou-profile.pages.dev/en/blog/first-hackathon</loc>
+        <xhtml:link rel="alternate" hreflang="ja" href="https://sou-profile.pages.dev/blog/first-hackathon" />
+        <xhtml:link rel="alternate" hreflang="en" href="https://sou-profile.pages.dev/en/blog/first-hackathon" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://sou-profile.pages.dev/blog/first-hackathon" />
+        <lastmod>2026-10-03</lastmod>
+    </url>
 </urlset>

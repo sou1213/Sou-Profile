@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { readFile, stat } from "node:fs/promises";
 import test from "node:test";
 import { runInNewContext } from "node:vm";
+import { pageMetadata, siteContent } from "../src/siteContent.js";
 
 const read = (path) => readFile(new URL(`../${path}`, import.meta.url), "utf8");
 
@@ -30,20 +31,28 @@ const readJsonLd = (html) => {
     return JSON.parse(match[1]);
 };
 
-test("HomeとWorkで共通ナビゲーションを提供する", async () => {
-    const [home, work, enHome, enWork, app] = await Promise.all([
+test("Home・Work・Blog・記事で共通ナビゲーションを提供する", async () => {
+    const [home, work, blog, blogPost, enHome, enWork, enBlog, enBlogPost, app] = await Promise.all([
         read("index.html"),
         read("work.html"),
+        read("blog.html"),
+        read("blog/first-hackathon.html"),
         read("en/index.html"),
         read("en/work.html"),
+        read("en/blog.html"),
+        read("en/blog/first-hackathon.html"),
         read("src/App.jsx")
     ]);
 
     for (const [html, page, locale] of [
         [home, "home", "ja"],
         [work, "work", "ja"],
+        [blog, "blog", "ja"],
+        [blogPost, "blogPost", "ja"],
         [enHome, "home", "en"],
-        [enWork, "work", "en"]
+        [enWork, "work", "en"],
+        [enBlog, "blog", "en"],
+        [enBlogPost, "blogPost", "en"]
     ]) {
         assert.match(html, new RegExp(`<html lang="${locale}">`));
         assert.match(html, new RegExp(`<body data-page="${page}" data-locale="${locale}">`));
@@ -55,8 +64,10 @@ test("HomeとWorkで共通ナビゲーションを提供する", async () => {
     assert.match(app, /<nav className="site-nav" aria-label=\{text\.label\}/);
     assert.match(app, /href=\{localePaths\[locale\]\.home\}/);
     assert.match(app, /href=\{localePaths\[locale\]\.work\}/);
+    assert.match(app, /href=\{localePaths\[locale\]\.blog\}/);
     assert.match(app, /page === "home" \? "page"/);
     assert.match(app, /page === "work" \? "page"/);
+    assert.match(app, /page === "blog" \? "page"/);
     assert.match(app, /className="nav-active-indicator"/);
 });
 
@@ -71,7 +82,7 @@ test("言語切り替えは現在ページを保ち、次に表示する言語�
     ]);
 
     assert.match(app, /const targetLocale = locale === "ja" \? "en" : "ja"/);
-    assert.match(app, /href=\{localePaths\[targetLocale\]\[visualPage\]\}/);
+    assert.match(app, /href=\{localePaths\[targetLocale\]\[languagePage\]\}/);
     assert.match(app, /hrefLang=\{targetLocale\}/);
     assert.match(app, /className="language-toggle"/);
     assert.match(content, /targetLanguage: "EN"/);
@@ -252,6 +263,63 @@ test("各ページは検索とSNS共有向けの固有メタデータを持つ",
     );
 });
 
+test("Blogの日英ページはクライアント遷移と一致するメタデータを持つ", async () => {
+    for (const locale of ["ja", "en"]) {
+        const escapeHtml = (value) => value.replaceAll("&", "&amp;");
+        for (const page of ["blog", "blogPost"]) {
+            const path = page === "blog" ? "blog.html" : "blog/first-hackathon.html";
+            const html = await read(locale === "ja" ? path : `en/${path}`);
+            const metadata = pageMetadata[locale][page];
+
+            assert.ok(html.includes(`<title>${escapeHtml(metadata.title)}</title>`));
+            assert.ok(html.includes(`<meta name="description" content="${metadata.description}">`));
+            assert.ok(html.includes(`<link rel="canonical" href="${metadata.canonical}">`));
+            assert.ok(html.includes(`<meta property="og:url" content="${metadata.canonical}">`));
+            assert.ok(html.includes(`<meta name="twitter:title" content="${escapeHtml(metadata.title)}">`));
+            for (const targetLocale of ["ja", "en"]) {
+                assert.ok(html.includes(`<link rel="alternate" hreflang="${targetLocale}" href="${pageMetadata[targetLocale][page].canonical}">`));
+            }
+
+            const data = readJsonLd(html);
+            assert.equal(data["@type"], page === "blog" ? "Blog" : "BlogPosting");
+            assert.equal(data.inLanguage, locale);
+            assert.equal(data.url, metadata.canonical);
+            if (page === "blog") {
+                assert.equal(data.blogPost.url, pageMetadata[locale].blogPost.canonical);
+            } else {
+                assert.equal(data.headline, siteContent[locale].blog.article.title);
+            }
+        }
+    }
+});
+
+test("Blogタブは記事の概要を表示し、記事選択で本文へ進む", async () => {
+    const app = await read("src/App.jsx");
+
+    assert.match(app, /function BlogPage\(\{ locale, onNavigate \}\)/);
+    assert.match(app, /className="blog-preview__link"/);
+    assert.match(app, /href=\{localePaths\[locale\]\.blogPost\}/);
+    assert.match(app, /function BlogPostPage\(\{ locale, onNavigate \}\)/);
+    assert.match(app, /languagePage === "blogPost" \? "blog" : languagePage/);
+    assert.match(app, /first-hackathon/);
+});
+
+test("初めてのハッカソン記事は体験と当日の実装範囲を掲載する", () => {
+    const article = siteContent.ja.blog.article;
+    const paragraphs = article.sections.flatMap((section) => section.paragraphs)
+        .map((paragraph) => typeof paragraph === "string"
+            ? paragraph
+            : `${paragraph.before}${paragraph.strong}${paragraph.after}`);
+
+    assert.equal(article.title, "初めてのハッカソンに参加してきた！");
+    assert.equal(article.sections.length, 6);
+    assert.equal(siteContent.en.blog.article.sections.length, article.sections.length);
+    assert.ok(paragraphs.some((paragraph) => paragraph.includes("Bet And StudyというWebアプリケーション")));
+    assert.ok(paragraphs.some((paragraph) => paragraph.includes("システムの機能までは実装せず")));
+    assert.ok(paragraphs.some((paragraph) => paragraph.includes("法律的に問題があるかもしれない")));
+    assert.ok(paragraphs.some((paragraph) => paragraph.includes("クラスメソッドの方")));
+});
+
 test("構造化データはプロフィールと制作物を正しく表す", async () => {
     const [home, work, enHome, enWork] = await Promise.all([
         read("index.html"),
@@ -305,6 +373,10 @@ test("robots.txtとサイトマップはCloudflareの正式URLを案内する", 
     assert.match(sitemap, /<loc>https:\/\/sou-profile\.pages\.dev\/work<\/loc>/);
     assert.match(sitemap, /<loc>https:\/\/sou-profile\.pages\.dev\/en\/<\/loc>/);
     assert.match(sitemap, /<loc>https:\/\/sou-profile\.pages\.dev\/en\/work<\/loc>/);
+    assert.match(sitemap, /<loc>https:\/\/sou-profile\.pages\.dev\/blog<\/loc>/);
+    assert.match(sitemap, /<loc>https:\/\/sou-profile\.pages\.dev\/en\/blog<\/loc>/);
+    assert.match(sitemap, /<loc>https:\/\/sou-profile\.pages\.dev\/blog\/first-hackathon<\/loc>/);
+    assert.match(sitemap, /<loc>https:\/\/sou-profile\.pages\.dev\/en\/blog\/first-hackathon<\/loc>/);
     assert.match(sitemap, /hreflang="x-default"/);
     assert.doesNotMatch(sitemap, /github\.io/);
     assert.match(buildScript, /"robots\.txt"/);

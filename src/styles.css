@@ -218,7 +218,7 @@ summary:focus-visible {
     z-index: 101;
     top: max(18px, env(safe-area-inset-top));
     left: 50%;
-    width: min(calc(100% - 32px), 500px);
+    width: min(calc(100% - 32px), 560px);
     min-height: 68px;
     padding: 10px 14px;
     display: grid;
@@ -274,7 +274,7 @@ summary:focus-visible {
     position: relative;
     isolation: isolate;
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 4px;
 }
 
@@ -302,7 +302,8 @@ summary:focus-visible {
 
 .nav-link:hover,
 .site-links[data-active-page="home"] .nav-link[data-page="home"],
-.site-links[data-active-page="work"] .nav-link[data-page="work"] {
+.site-links[data-active-page="work"] .nav-link[data-page="work"],
+.site-links[data-active-page="blog"] .nav-link[data-page="blog"] {
     color: var(--accent);
 }
 
@@ -321,7 +322,7 @@ summary:focus-visible {
     top: 0;
     bottom: 0;
     left: 0;
-    width: calc((100% - 4px) / 2);
+    width: calc((100% - 8px) / 3);
     border-radius: 999px;
     background: rgb(255 255 255 / 9%);
     box-shadow: inset 0 0 0 1px var(--line);
@@ -337,6 +338,10 @@ summary:focus-visible {
 
 .site-links[data-active-page="work"] .nav-active-indicator {
     transform: translateX(calc(100% + 4px));
+}
+
+.site-links[data-active-page="blog"] .nav-active-indicator {
+    transform: translateX(calc(200% + 8px));
 }
 
 .nav-controls {
@@ -389,7 +394,8 @@ summary:focus-visible {
     max-width: 560px;
 }
 
-.container--work {
+.container--work,
+.container--blog {
     max-width: 720px;
 }
 
@@ -551,6 +557,97 @@ p {
     border: 1px solid var(--line);
     border-radius: 22px;
     background: var(--surface-soft);
+}
+
+.blog-preview {
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    background: var(--surface-soft);
+    overflow: hidden;
+}
+
+.blog-preview__link {
+    display: block;
+    padding: clamp(22px, 4vw, 34px);
+    color: inherit;
+    text-decoration: none;
+}
+
+.blog-preview__link h3 {
+    margin: 0 0 14px;
+    color: var(--text);
+    font-size: clamp(20px, 3.5vw, 25px);
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+.blog-preview__link p {
+    margin-bottom: 18px;
+}
+
+.blog-preview__more,
+.blog-back-link {
+    color: var(--text);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+}
+
+.blog-preview__link:hover .blog-preview__more,
+.blog-back-link:hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+.page-header--blog-post {
+    margin-bottom: 24px;
+}
+
+.blog-back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 44px;
+    text-decoration: none;
+}
+
+.blog-article {
+    max-width: 680px;
+}
+
+.blog-article > h2 {
+    margin-bottom: 44px;
+    padding-bottom: 0;
+    border: 0;
+    color: var(--text);
+    font-size: clamp(24px, 4.5vw, 32px);
+    font-weight: 650;
+    letter-spacing: 0.02em;
+    line-height: 1.5;
+    text-transform: none;
+}
+
+.blog-article__section {
+    margin-bottom: 44px;
+}
+
+.blog-article__section h3 {
+    margin: 0 0 18px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--line);
+    color: var(--text);
+    font-size: clamp(18px, 3vw, 21px);
+    font-weight: 600;
+    line-height: 1.55;
+}
+
+.blog-article__section p {
+    line-height: 1.95;
+}
+
+.blog-article__section strong {
+    color: var(--text);
+    font-weight: 700;
 }
 
 .work-card__meta {
@@ -775,7 +872,8 @@ footer {
         margin-bottom: 48px;
     }
 
-    .work-card {
+    .work-card,
+    .blog-preview {
         border-radius: 18px;
     }
 
@@ -786,6 +884,31 @@ footer {
     .work-actions {
         align-items: flex-start;
         flex-direction: column;
+    }
+}
+
+@media (max-width: 420px) {
+    .site-shell {
+        padding-top: 148px;
+    }
+
+    .site-nav {
+        row-gap: 6px;
+    }
+
+    .site-mark {
+        grid-column: 1 / 3;
+        grid-row: 1;
+    }
+
+    .nav-controls {
+        grid-column: 3;
+        grid-row: 1;
+    }
+
+    .site-links {
+        grid-column: 1 / -1;
+        grid-row: 2;
     }
 }
 
@@ -808,6 +931,12 @@ h1, h2, h3, p,
 .role-badge,
 .status-badge,
 .work-card,
+.blog-preview,
+.blog-preview__link h3,
+.blog-preview__more,
+.blog-back-link,
+.blog-article > h2,
+.blog-article__section h3,
 .work-card__meta,
 .work-visual,
 .work-details,

@@ -39,8 +39,12 @@ const { render } = await import(pathToFileURL(join(renderOutput, "render.js")));
 for (const [file, page, locale] of [
     ["index.html", "home", "ja"],
     ["work.html", "work", "ja"],
+    ["blog.html", "blog", "ja"],
+    ["blog/first-hackathon.html", "blogPost", "ja"],
     ["en/index.html", "home", "en"],
-    ["en/work.html", "work", "en"]
+    ["en/work.html", "work", "en"],
+    ["en/blog.html", "blog", "en"],
+    ["en/blog/first-hackathon.html", "blogPost", "en"]
 ]) {
     const outputFile = join(outputRoot, file);
     const html = await readFile(outputFile, "utf8");

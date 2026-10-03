@@ -1,11 +1,15 @@
 export const localePaths = {
     ja: {
         home: "/index.html",
-        work: "/work.html"
+        work: "/work.html",
+        blog: "/blog.html",
+        blogPost: "/blog/first-hackathon.html"
     },
     en: {
         home: "/en/index.html",
-        work: "/en/work.html"
+        work: "/en/work.html",
+        blog: "/en/blog.html",
+        blogPost: "/en/blog/first-hackathon.html"
     }
 };
 
@@ -20,6 +24,16 @@ export const pageMetadata = {
             title: "制作実績 | ChatGPT Touch Bar・iOS/Webアプリ | 高橋壮介",
             description: "高橋壮介がOSSとして公開するChatGPT Touch Barをはじめ、制作中のiOSアプリとWebアプリを紹介します。",
             canonical: "https://sou-profile.pages.dev/work"
+        },
+        blog: {
+            title: "ブログ | 学習と開発の記録 | 高橋壮介",
+            description: "高橋壮介のブログ。アプリ開発やWeb制作を通じて学んだこと、試行錯誤の過程を紹介します。",
+            canonical: "https://sou-profile.pages.dev/blog"
+        },
+        blogPost: {
+            title: "初めてのハッカソンに参加してきた！ | 高橋壮介のブログ",
+            description: "初めてのハッカソンで、仲間との約束とAIによる計画づくりを組み合わせたBet And StudyのUIを作って発表した体験を綴ります。",
+            canonical: "https://sou-profile.pages.dev/blog/first-hackathon"
         }
     },
     en: {
@@ -32,6 +46,16 @@ export const pageMetadata = {
             title: "Selected Work | macOS, iOS & Web Apps | Sosuke Takahashi",
             description: "Explore Sosuke Takahashi's open-source macOS utility, iOS app in development, and experimental WebGL project.",
             canonical: "https://sou-profile.pages.dev/en/work"
+        },
+        blog: {
+            title: "Blog | Learning & Development Notes | Sosuke Takahashi",
+            description: "Notes by Sosuke Takahashi on learning through app and web development.",
+            canonical: "https://sou-profile.pages.dev/en/blog"
+        },
+        blogPost: {
+            title: "My First Hackathon | Sosuke Takahashi's Blog",
+            description: "My first hackathon: how an idea from a friend's promise became the Bet And Study UI, and what I learned from presenting it.",
+            canonical: "https://sou-profile.pages.dev/en/blog/first-hackathon"
         }
     }
 };
@@ -43,6 +67,7 @@ export const siteContent = {
             markLabel: "SOU LOG ホーム",
             home: "Home",
             work: "Work",
+            blog: "Blog",
             switchToLight: "ライトモードへ切り替える",
             switchToDark: "ダークモードへ切り替える",
             light: "Light",
@@ -61,6 +86,63 @@ export const siteContent = {
             socialLabel: "SNSリンク",
             xLabel: "Xプロフィールを開く",
             githubLabel: "GitHubプロフィールを開く"
+        },
+        blog: {
+            eyebrow: "Learning & Development",
+            title: "BLOG",
+            lead: "アプリ開発やWeb制作を通じて学んだこと、試行錯誤の過程、日々の気づきを記録していきます。",
+            latestTitle: "Latest Posts",
+            readArticle: "記事を読む",
+            backToBlog: "記事一覧へ戻る",
+            article: {
+                title: "初めてのハッカソンに参加してきた！",
+                excerpt: "初めてのハッカソンで、友人の一言から生まれたBet And StudyのUIを作って発表した体験を綴ります。",
+                sections: [
+                    {
+                        heading: "「近いし、楽しそうだし！」から始まった",
+                        paragraphs: [
+                            "今回、初めてハッカソンに参加しました！ きっかけは「近いし行くか！ 楽しそうだし！」という、わりと勢いのある理由です。",
+                            "会場の第一印象は、「学校みたいで、温かそうな雰囲気だなぁ」というものでした。ただ、当日は道に迷ってしまい、到着が遅れてしまいました……。"
+                        ]
+                    },
+                    {
+                        heading: "2日目からの参加で、いきなり緊張",
+                        paragraphs: [
+                            "ハッカソンは2日間あり、私は開発をする2日目だけ参加しました。到着したときには、すでにチームと役割が決まっていて、正直「これ、チームに入りづらくない？」と思いました。",
+                            "一方で、作るプロダクトはまだ決まっていませんでした。そこで運営の方にも協力していただき、何を作るか相談しました。"
+                        ]
+                    },
+                    {
+                        heading: "友人の一言から生まれたアイデア",
+                        paragraphs: [
+                            { before: "そこで作ることにしたのが、", strong: "Bet And Study", after: "というWebアプリケーションです。" },
+                            "アイデアのきっかけは、以前、基本情報技術者の資格を取りたいと言っていた友人との会話でした。「来月までに勉強して取る」と話す友人が、「もし取れなかったら、お前の口座に5万円振り込むわ！ これならいけるわ」と言ったんです。",
+                            "誰かとの約束や、達成できなかったときの負担があれば、「実行しなければ」という気持ちが生まれるのかもしれない。勉強だけでなく、タスクをこなすことが苦手な人にも役立つ仕組みにできないかと考えました。",
+                            "そこから、仲間との約束とAIによる計画づくりを組み合わせた、Bet And Studyのアイデアにつながりました。"
+                        ]
+                    },
+                    {
+                        heading: "残り約1時間。WebアプリのUIを作って発表へ",
+                        paragraphs: [
+                            "時計を見ると、残りは約1時間。「うーん、無理かな？」と思いましたが、AIの力も借りながら、Bet And StudyのUIを作成しました。システムの機能までは実装せず、発表では作成した画面を見せて、なんとか発表までたどり着きました！",
+                            "ただ、話す内容や技術の選定までは詰められておらず、エンジニアらしい説明はほとんどできませんでした。人前で話すのもうまくいかず、恥ずかしかったです。"
+                        ]
+                    },
+                    {
+                        heading: "発表でもらったフィードバック",
+                        paragraphs: [
+                            "発表後、Google Cloudの方から「面白いけれど、法律的に問題があるかもしれない」という趣旨のフィードバックをいただきました。実は制作中にもAIから同じ懸念を指摘されていたのですが、私が「気にせず進めて」と指示していました。"
+                        ]
+                    },
+                    {
+                        heading: "また参加してみたい！",
+                        paragraphs: [
+                            "初めてのハッカソンは、道に迷うところから始まって、発表でうまく話せず恥ずかしい思いもしました。でも、それも含めていろいろな経験ができました。またハッカソンに参加してみたいです！",
+                            "最後に、クラスメソッドの方がその後の打ち上げに誘ってくださったのも、とてもうれしかったです。ありがとうございました！"
+                        ]
+                    }
+                ]
+            }
         },
         shared: {
             technologies: "使用技術"
@@ -137,6 +219,7 @@ export const siteContent = {
             markLabel: "SOU LOG home",
             home: "Home",
             work: "Work",
+            blog: "Blog",
             switchToLight: "Switch to light mode",
             switchToDark: "Switch to dark mode",
             light: "Light",
@@ -155,6 +238,63 @@ export const siteContent = {
             socialLabel: "Social links",
             xLabel: "Open X profile",
             githubLabel: "Open GitHub profile"
+        },
+        blog: {
+            eyebrow: "Learning & Development",
+            title: "BLOG",
+            lead: "Notes on what I learn while building apps and websites, the experiments along the way, and everyday discoveries.",
+            latestTitle: "Latest Posts",
+            readArticle: "Read article",
+            backToBlog: "Back to Blog",
+            article: {
+                title: "I Went to My First Hackathon!",
+                excerpt: "How a friend's promise inspired Bet And Study, and how we built its UI in time for my first hackathon presentation.",
+                sections: [
+                    {
+                        heading: "It started with ‘It's close, and it sounds fun!’",
+                        paragraphs: [
+                            "I joined a hackathon for the first time! The reason was fairly spontaneous: ‘It's close by, so why not? It sounds fun!’",
+                            "My first impression of the venue was that it felt a bit like a school, with a warm atmosphere. I got lost on the way there, though, and arrived late…"
+                        ]
+                    },
+                    {
+                        heading: "Joining on day two was nerve-racking",
+                        paragraphs: [
+                            "The hackathon lasted two days, and I joined only on the second day, when development took place. By the time I arrived, teams and roles had already been decided. Honestly, I wondered how I was supposed to join a team at that point.",
+                            "The product itself had not been decided yet. With help from the organizers, we talked through what to build."
+                        ]
+                    },
+                    {
+                        heading: "An idea from something a friend said",
+                        paragraphs: [
+                            { before: "We decided to build a web app called ", strong: "Bet And Study", after: "." },
+                            "The idea came from a conversation with a friend who wanted to earn Japan's Fundamental Information Technology Engineer certification. He said he would study and pass by the following month, then added, ‘If I don't pass, I'll transfer 50,000 yen to your bank account! That'll make me do it.’",
+                            "I wondered whether a promise to someone, and the cost of not following through, could create the motivation to act. Could a similar idea help people who struggle to finish tasks, not just study?",
+                            "That led to Bet And Study, which combines a commitment to friends with AI-assisted planning."
+                        ]
+                    },
+                    {
+                        heading: "About an hour left: building the UI and presenting it",
+                        paragraphs: [
+                            "When I checked the time, about an hour remained. I thought we might not make it, but with help from AI, I built the Bet And Study UI. We did not implement the underlying features. I showed the screens in our presentation, and we made it to the finish!",
+                            "We had not fully worked out what to say or which technologies to use, so I could barely give an engineer's explanation. Speaking in front of everyone did not go well either, and I felt embarrassed."
+                        ]
+                    },
+                    {
+                        heading: "Feedback after the presentation",
+                        paragraphs: [
+                            "Afterward, someone from Google Cloud gave us feedback to the effect that the idea was interesting but might raise legal concerns. AI had raised the same concern while I was building it, but I had told it to keep going without worrying about it."
+                        ]
+                    },
+                    {
+                        heading: "I'd like to do it again!",
+                        paragraphs: [
+                            "My first hackathon started with getting lost and included an awkward presentation. Even so, the whole experience taught me a lot. I'd like to join another hackathon!",
+                            "Finally, I was very happy that someone from Classmethod invited me to the gathering afterward. Thank you!"
+                        ]
+                    }
+                ]
+            }
         },
         shared: {
             technologies: "Technologies used"
