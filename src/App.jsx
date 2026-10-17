@@ -1,3 +1,4 @@
+import { oscArticle } from "./oscArticle.js";
 import { forwardRef, useCallback, useEffect, useRef, useState } from "react";
 import { useLiquidGlass } from "./glass/useLiquidGlass.js";
 import { localePaths, pageMetadata, siteContent } from "./siteContent.js";
@@ -6,10 +7,11 @@ const heroImage = "/assets/chatgpt-touchbar/figma-readme-hero.png";
 const touchBarImage = "/assets/chatgpt-touchbar/safari-touch-bar.png";
 const themeStorageKey = "sou-profile-theme";
 const pageTransitionFallbackDelay = 600;
-const pageOrder = { home: 0, work: 1, blog: 2, blogPost: 3 };
+const pageOrder = { home: 0, work: 1, blog: 2, blogPost: 3, oscPost: 3 };
 const openGraphLocales = { ja: "ja_JP", en: "en_US" };
 
 function pageFromPath(pathname) {
+    if (/\/blog\/osc2026-tokyo-fall(?:\.html)?\/?$/.test(pathname)) return "oscPost";
     if (/\/blog\/first-hackathon(?:\.html)?\/?$/.test(pathname)) return "blogPost";
     const match = pathname.match(/\/(work|blog)(?:\.html)?\/?$/);
     return match ? match[1] : "home";
@@ -34,7 +36,7 @@ function updateDocumentMetadata(page, locale) {
     document.querySelector('meta[name="description"]')?.setAttribute("content", metadata.description);
     document.querySelector('link[rel="canonical"]')?.setAttribute("href", metadata.canonical);
     document.querySelector('meta[property="og:title"]')?.setAttribute("content", metadata.title);
-    document.querySelector('meta[property="og:type"]')?.setAttribute("content", page === "blogPost" ? "article" : "website");
+    document.querySelector('meta[property="og:type"]')?.setAttribute("content", (page === "blogPost" || page === "oscPost") ? "article" : "website");
     document.querySelector('meta[property="og:description"]')?.setAttribute("content", metadata.description);
     document.querySelector('meta[property="og:url"]')?.setAttribute("content", metadata.canonical);
     document.querySelector('meta[property="og:locale"]')?.setAttribute("content", openGraphLocales[locale]);
@@ -89,7 +91,7 @@ const SiteNavigation = forwardRef(function SiteNavigation(
                     className="nav-link"
                     data-page="blog"
                     href={localePaths[locale].blog}
-                    aria-current={page === "blog" ? "page" : page === "blogPost" ? "location" : undefined}
+                    aria-current={page === "blog" ? "page" : (page === "blogPost" || page === "oscPost") ? "location" : undefined}
                     onClick={(event) => handlePageLink(event, "blog", onNavigate)}
                 >
                     <span className="nav-label">{text.blog}</span>
@@ -280,6 +282,17 @@ function BlogPage({ locale, onNavigate }) {
                 <article className="blog-preview">
                     <a
                         className="blog-preview__link"
+                        href={localePaths[locale].oscPost}
+                        onClick={(event) => handlePageLink(event, "oscPost", onNavigate)}
+                    >
+                        <h3>{oscArticle[locale].title}</h3>
+                        <p>{oscArticle[locale].excerpt}</p>
+                        <span className="blog-preview__more">{text.readArticle} <span aria-hidden="true">→</span></span>
+                    </a>
+                </article>
+                <article className="blog-preview">
+                    <a
+                        className="blog-preview__link"
                         href={localePaths[locale].blogPost}
                         onClick={(event) => handlePageLink(event, "blogPost", onNavigate)}
                     >
@@ -329,6 +342,37 @@ function BlogPostPage({ locale, onNavigate }) {
                 ))}
             </article>
 
+            <Footer />
+        </main>
+    );
+}
+
+function OscPostPage({ locale, onNavigate }) {
+    const text = siteContent[locale].blog;
+    const article = oscArticle[locale];
+
+    return (
+        <main className="container container--blog" tabIndex="-1">
+            <header className="page-header page-header--blog-post">
+                <p className="eyebrow">{text.eyebrow}</p>
+                <h1>{text.title}</h1>
+            </header>
+            <a className="blog-back-link" href={localePaths[locale].blog}
+                onClick={(event) => handlePageLink(event, "blog", onNavigate)}>
+                <span aria-hidden="true">←</span> {text.backToBlog}
+            </a>
+            <article className="blog-article blog-article--osc">
+                <h2>{article.title}</h2>
+                {article.paragraphs.map((paragraph, index) => (
+                    <p key={index}>
+                        {typeof paragraph === "string"
+                            ? paragraph.split("\n").map((line, lineIndex) => (
+                                <span key={lineIndex}>{lineIndex > 0 && <br />}{line}</span>
+                            ))
+                            : <strong>{paragraph.question}</strong>}
+                    </p>
+                ))}
+            </article>
             <Footer />
         </main>
     );
@@ -474,7 +518,7 @@ export function App({ page, locale = "ja" }) {
         ]
         : [{ page: currentPage, role: "current" }];
     const languagePage = pageTransition?.to ?? currentPage;
-    const visualPage = languagePage === "blogPost" ? "blog" : languagePage;
+    const visualPage = languagePage === "blogPost" ? "blog" : languagePage === "oscPost" ? "blog" : languagePage;
 
     return (
         <>
@@ -505,6 +549,7 @@ export function App({ page, locale = "ja" }) {
                         >
                             {visiblePage === "work" ? <WorkPage locale={locale} />
                                 : visiblePage === "blog" ? <BlogPage locale={locale} onNavigate={beginPageTransition} />
+                                    : visiblePage === "oscPost" ? <OscPostPage locale={locale} onNavigate={beginPageTransition} />
                                     : visiblePage === "blogPost" ? <BlogPostPage locale={locale} onNavigate={beginPageTransition} />
                                     : <HomePage locale={locale} />}
                         </div>

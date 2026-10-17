@@ -17,7 +17,9 @@ export default defineConfig({
                 enHome: resolve(import.meta.dirname, "en/index.html"),
                 enWork: resolve(import.meta.dirname, "en/work.html"),
                 enBlog: resolve(import.meta.dirname, "en/blog.html"),
-                enBlogPost: resolve(import.meta.dirname, "en/blog/first-hackathon.html")
+                enBlogPost: resolve(import.meta.dirname, "en/blog/first-hackathon.html"),
+                oscPost: resolve(import.meta.dirname, "blog/osc2026-tokyo-fall.html"),
+                enOscPost: resolve(import.meta.dirname, "en/blog/osc2026-tokyo-fall.html")
             }
         }
     }

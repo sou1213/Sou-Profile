@@ -44,7 +44,9 @@ for (const [file, page, locale] of [
     ["en/index.html", "home", "en"],
     ["en/work.html", "work", "en"],
     ["en/blog.html", "blog", "en"],
-    ["en/blog/first-hackathon.html", "blogPost", "en"]
+    ["en/blog/first-hackathon.html", "blogPost", "en"],
+    ["blog/osc2026-tokyo-fall.html", "oscPost", "ja"],
+    ["en/blog/osc2026-tokyo-fall.html", "oscPost", "en"]
 ]) {
     const outputFile = join(outputRoot, file);
     const html = await readFile(outputFile, "utf8");

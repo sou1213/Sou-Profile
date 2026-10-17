@@ -285,7 +285,10 @@ test("Blogの日英ページはクライアント遷移と一致するメタデ�
             assert.equal(data.inLanguage, locale);
             assert.equal(data.url, metadata.canonical);
             if (page === "blog") {
-                assert.equal(data.blogPost.url, pageMetadata[locale].blogPost.canonical);
+                assert.deepEqual(data.blogPost.map((post) => post.url), [
+                    pageMetadata[locale].oscPost.canonical,
+                    pageMetadata[locale].blogPost.canonical
+                ]);
             } else {
                 assert.equal(data.headline, siteContent[locale].blog.article.title);
             }

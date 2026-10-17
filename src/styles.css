@@ -995,3 +995,15 @@ footer {
         transition-duration: 0.01ms !important;
     }
 }
+
+.blog-preview + .blog-preview {
+    margin-top: 24px;
+}
+
+.blog-article--osc p {
+    line-height: 1.95;
+}
+
+.blog-article--osc strong {
+    color: var(--text);
+}

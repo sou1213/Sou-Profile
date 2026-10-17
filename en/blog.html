@@ -24,22 +24,38 @@
     <script vite-ignore src="/theme-bootstrap.js"></script>
     <script type="module" src="/src/main.jsx"></script>
     <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "Blog",
-        "url": "https://sou-profile.pages.dev/en/blog",
-        "name": "Sosuke Takahashi's Blog",
-        "description": "A story about building and presenting the Bet And Study UI at a first hackathon.",
-        "inLanguage": "en",
-        "author": { "@id": "https://sou-profile.pages.dev/#person" },
-        "blogPost": {
+{
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    "url": "https://sou-profile.pages.dev/en/blog",
+    "name": "Sosuke Takahashi's Blog",
+    "description": "Experiences from events, learning, and development.",
+    "inLanguage": "en",
+    "author": {
+        "@id": "https://sou-profile.pages.dev/#person"
+    },
+    "blogPost": [
+        {
+            "@type": "BlogPosting",
+            "headline": "My First Open Source Conference in Asakusa!",
+            "url": "https://sou-profile.pages.dev/en/blog/osc2026-tokyo-fall",
+            "datePublished": "2026-10-17",
+            "inLanguage": "en",
+            "author": {
+                "@id": "https://sou-profile.pages.dev/#person"
+            }
+        },
+        {
             "@type": "BlogPosting",
             "headline": "I Went to My First Hackathon!",
             "url": "https://sou-profile.pages.dev/en/blog/first-hackathon",
             "inLanguage": "en",
-            "author": { "@id": "https://sou-profile.pages.dev/#person" }
+            "author": {
+                "@id": "https://sou-profile.pages.dev/#person"
+            }
         }
-    }
+    ]
+}
     </script>
 </head>
 <body data-page="blog" data-locale="en">

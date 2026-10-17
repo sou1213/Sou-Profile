@@ -1,15 +1,19 @@
+import { oscArticle } from "./oscArticle.js";
+
 export const localePaths = {
     ja: {
         home: "/index.html",
         work: "/work.html",
         blog: "/blog.html",
-        blogPost: "/blog/first-hackathon.html"
+        blogPost: "/blog/first-hackathon.html",
+        oscPost: "/blog/osc2026-tokyo-fall.html"
     },
     en: {
         home: "/en/index.html",
         work: "/en/work.html",
         blog: "/en/blog.html",
-        blogPost: "/en/blog/first-hackathon.html"
+        blogPost: "/en/blog/first-hackathon.html",
+        oscPost: "/en/blog/osc2026-tokyo-fall.html"
     }
 };
 
@@ -366,3 +370,11 @@ export const siteContent = {
         }
     }
 };
+
+for (const locale of ["ja", "en"]) {
+    pageMetadata[locale].oscPost = {
+        title: `${oscArticle[locale].title} | ${locale === "ja" ? "高橋壮介のブログ" : "Sosuke Takahashi’s Blog"}`,
+        description: oscArticle[locale].excerpt,
+        canonical: `https://sou-profile.pages.dev/${locale === "en" ? "en/" : ""}blog/osc2026-tokyo-fall`
+    };
+}
