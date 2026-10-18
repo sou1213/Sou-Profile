@@ -1,5 +1,6 @@
 export const oscArticle = {
     "ja": {
+        "addedOn": "2026-10-17",
         "title": "浅草のオープンソースカンファレンスに初参加！",
         "excerpt": "浅草のOSC2026 Tokyo/Fallに初参加！ ブースでの発見や車載メーターのOSSについて伺ったお話、懇親会での交流を綴ります。",
         "paragraphs": [
@@ -27,6 +28,7 @@ export const oscArticle = {
         ]
     },
     "en": {
+        "addedOn": "2026-10-17",
         "title": "My First Open Source Conference in Asakusa!",
         "excerpt": "My first visit to OSC2026 Tokyo/Fall in Asakusa: discoveries at the booths, a conversation about open source vehicle instrument clusters, and the social gathering.",
         "paragraphs": [

@@ -1007,3 +1007,17 @@ footer {
 .blog-article--osc strong {
     color: var(--text);
 }
+
+.blog-date {
+    color: var(--muted);
+    font-size: 13px;
+    letter-spacing: 0.02em;
+}
+
+.blog-article > h2:has(+ .blog-date) {
+    margin-bottom: 12px;
+}
+
+.blog-article > .blog-date {
+    margin-bottom: 32px;
+}

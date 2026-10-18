@@ -99,6 +99,7 @@ export const siteContent = {
             readArticle: "記事を読む",
             backToBlog: "記事一覧へ戻る",
             article: {
+                addedOn: "2026-10-04",
                 title: "初めてのハッカソンに参加してきた！",
                 excerpt: "初めてのハッカソンで、友人の一言から生まれたBet And StudyのUIを作って発表した体験を綴ります。",
                 sections: [
@@ -251,6 +252,7 @@ export const siteContent = {
             readArticle: "Read article",
             backToBlog: "Back to Blog",
             article: {
+                addedOn: "2026-10-04",
                 title: "I Went to My First Hackathon!",
                 excerpt: "How a friend's promise inspired Bet And Study, and how we built its UI in time for my first hackathon presentation.",
                 sections: [

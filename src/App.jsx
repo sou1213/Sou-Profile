@@ -266,6 +266,13 @@ function WorkPage({ locale }) {
     );
 }
 
+function BlogDate({ date, locale }) {
+    const [year, month, day] = date.split("-");
+    const label = locale === "ja" ? "追加日：" : "Added: ";
+    const display = locale === "ja" ? `${year}年${Number(month)}月${Number(day)}日` : date;
+    return <p className="blog-date">{label}<time dateTime={date}>{display}</time></p>;
+}
+
 function BlogPage({ locale, onNavigate }) {
     const text = siteContent[locale].blog;
 
@@ -286,6 +293,7 @@ function BlogPage({ locale, onNavigate }) {
                         onClick={(event) => handlePageLink(event, "oscPost", onNavigate)}
                     >
                         <h3>{oscArticle[locale].title}</h3>
+                        <BlogDate date={oscArticle[locale].addedOn} locale={locale} />
                         <p>{oscArticle[locale].excerpt}</p>
                         <span className="blog-preview__more">{text.readArticle} <span aria-hidden="true">→</span></span>
                     </a>
@@ -297,6 +305,7 @@ function BlogPage({ locale, onNavigate }) {
                         onClick={(event) => handlePageLink(event, "blogPost", onNavigate)}
                     >
                         <h3>{text.article.title}</h3>
+                        <BlogDate date={text.article.addedOn} locale={locale} />
                         <p>{text.article.excerpt}</p>
                         <span className="blog-preview__more">{text.readArticle} <span aria-hidden="true">→</span></span>
                     </a>
@@ -328,6 +337,7 @@ function BlogPostPage({ locale, onNavigate }) {
 
             <article className="blog-article">
                 <h2>{text.article.title}</h2>
+                <BlogDate date={text.article.addedOn} locale={locale} />
                 {text.article.sections.map((section) => (
                     <section className="blog-article__section" key={section.heading}>
                         <h3>{section.heading}</h3>
@@ -363,6 +373,7 @@ function OscPostPage({ locale, onNavigate }) {
             </a>
             <article className="blog-article blog-article--osc">
                 <h2>{article.title}</h2>
+                <BlogDate date={article.addedOn} locale={locale} />
                 {article.paragraphs.map((paragraph, index) => (
                     <p key={index}>
                         {typeof paragraph === "string"
