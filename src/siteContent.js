@@ -90,7 +90,8 @@ export const siteContent = {
             mindset: "昨日分からなかったことが、今日分かるようになる過程を楽しみながら学んでいます。「尽きない好奇心」と毎日1％の努力を大切にしています。",
             socialLabel: "SNSリンク",
             xLabel: "Xプロフィールを開く",
-            githubLabel: "GitHubプロフィールを開く"
+            githubLabel: "GitHubプロフィールを開く",
+            wantedlyLabel: "Wantedlyプロフィールを開く"
         },
         blog: {
             eyebrow: "Learning & Development",
@@ -244,7 +245,8 @@ export const siteContent = {
             mindset: "I enjoy the process of understanding today what I could not understand yesterday. I value enduring curiosity and improving by one percent every day.",
             socialLabel: "Social links",
             xLabel: "Open X profile",
-            githubLabel: "Open GitHub profile"
+            githubLabel: "Open GitHub profile",
+            wantedlyLabel: "Open Wantedly profile"
         },
         blog: {
             eyebrow: "Learning & Development",

@@ -181,6 +181,9 @@ function HomePage({ locale }) {
                 <a href="https://github.com/sou1213" className="btn-sns" target="_blank" rel="noopener noreferrer" aria-label={text.githubLabel}>
                     <GitHubIcon />
                 </a>
+                <a href="https://www.wantedly.com/id/sousuke_takahashi_b" className="profile-link" target="_blank" rel="me noopener noreferrer" aria-label={text.wantedlyLabel}>
+                    Wantedly <span aria-hidden="true">↗</span>
+                </a>
             </div>
 
             <Footer />

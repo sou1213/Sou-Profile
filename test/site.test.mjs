@@ -341,7 +341,8 @@ test("構造化データはプロフィールと制作物を正しく表す", as
     assert.equal(homeData.mainEntity.name, "高橋 壮介");
     assert.deepEqual(homeData.mainEntity.sameAs, [
         "https://github.com/sou1213",
-        "https://x.com/hitonoyakntatsu"
+        "https://x.com/hitonoyakntatsu",
+        "https://www.wantedly.com/id/sousuke_takahashi_b"
     ]);
 
     assert.equal(workData["@type"], "CollectionPage");

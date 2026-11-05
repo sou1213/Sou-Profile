@@ -526,9 +526,25 @@ p {
 
 .sns-box {
     display: flex;
+    align-items: center;
+    flex-wrap: wrap;
     justify-content: flex-start;
     gap: 2rem;
     margin-top: 40px;
+}
+
+.profile-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 44px;
+    color: var(--muted);
+    font-size: 14px;
+    text-underline-offset: 4px;
+}
+
+.profile-link:hover {
+    color: var(--accent);
 }
 
 .btn-sns {
