@@ -81,6 +81,7 @@ export const siteContent = {
         },
         home: {
             name: "高橋 壮介",
+            introduction: "高橋 壮介（たかはし そうすけ）です。Swift・iOSアプリ開発を中心に、macOSのオープンソースソフトウェアやWebアプリの制作に取り組んでいます。このサイトでは、制作物と開発・学習の記録を公開しています。",
             currentState: [
                 "「知的好奇心」に従って、自分の手で何かを作れるようになるための試行錯誤中...。",
                 "将来スイスを拠点に多様なライフスタイルを実現することを目標としていますが、現在はその土台作りとして「アプリ開発」に一点集中して取り組んでいます。"
@@ -234,6 +235,7 @@ export const siteContent = {
         },
         home: {
             name: "Sosuke Takahashi",
+            introduction: "I'm Sosuke Takahashi (高橋 壮介). I focus on Swift and iOS app development, and also build open-source macOS software and web apps. This portfolio brings together my projects and notes on development and learning.",
             currentState: [
                 "Driven by intellectual curiosity, I am learning through trial and error how to turn ideas into things I can build with my own hands.",
                 "My long-term goal is to base myself in Switzerland and create a flexible, diverse way of living. Right now, I am focused on app development as the foundation for that path."

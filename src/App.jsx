@@ -153,6 +153,7 @@ function HomePage({ locale }) {
                     <span className="slash">/</span> UI Design <span className="slash">/</span> Python
                 </div>
                 <p className="sub-text">Learning to Create / Path to Switzerland</p>
+                <p className="profile-intro">{text.introduction}</p>
             </header>
 
             <section>

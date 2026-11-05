@@ -469,6 +469,11 @@ h1 {
     margin-top: 12px;
 }
 
+.profile-intro {
+    margin: 24px 0 0;
+    color: var(--muted);
+}
+
 .eyebrow {
     margin: 0 0 8px;
     font-family: "SF Mono", Menlo, Consolas, monospace;
